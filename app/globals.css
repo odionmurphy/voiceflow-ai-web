@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #171b26;
+  --color-ink-soft: #4b5165;
+  --color-paper: #f7f7f5;
+  --color-panel: #ffffff;
+  --color-border: #e4e3de;
+
+  --color-navy: #1e2740;
+  --color-navy-deep: #131a2c;
+  --color-navy-soft: #2c3654;
+
+  --color-amber: #d89b3c;
+  --color-amber-deep: #b87f28;
+  --color-amber-soft: #f2ddb3;
+
+  --color-teal: #2f9e8f;
+  --color-teal-soft: #d6efeb;
+  --color-red: #c94f4f;
+  --color-red-soft: #f6dede;
+
+  /* Clean, high-contrast yellow for the "AI is listening" pulse dot on AI Settings -
+     distinct from --color-amber (a muted gold used as the brand accent elsewhere). */
+  --color-signal: #facc15;
+
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-panel: var(--color-panel);
+  --color-border: var(--color-border);
+
+  --color-navy: var(--color-navy);
+  --color-navy-deep: var(--color-navy-deep);
+  --color-navy-soft: var(--color-navy-soft);
+
+  --color-amber: var(--color-amber);
+  --color-amber-deep: var(--color-amber-deep);
+  --color-amber-soft: var(--color-amber-soft);
+
+  --color-teal: var(--color-teal);
+  --color-teal-soft: var(--color-teal-soft);
+  --color-red: var(--color-red);
+  --color-red-soft: var(--color-red-soft);
+
+  --color-signal: var(--color-signal);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+/* Signature element: a soft pulse used sparingly to signal "AI is listening" */
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: pulse-ring 2.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+/* Card entrance used by clickable list cards (appointments, schedule rows) */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-in {
+  animation: card-in 0.3s ease-out both;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.overlay-in {
+  animation: overlay-in 0.15s ease-out both;
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-in {
+  animation: modal-in 0.2s cubic-bezier(0.2, 0.8, 0.4, 1) both;
+}
