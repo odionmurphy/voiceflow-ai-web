@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { ApiError } from "@/lib/api";
 
-export default function LoginPage() {
-  const { login } = useAuth();
+export default function RegisterPage() {
+  const { register } = useAuth();
   const router = useRouter();
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,10 +20,10 @@ export default function LoginPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await login(email, password);
+      await register(email, password, fullName);
       router.replace("/dashboard");
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not sign in. Try again.");
+      setError(err instanceof ApiError ? err.message : "Could not create account. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -65,12 +66,25 @@ export default function LoginPage() {
             <span className="font-display text-base font-semibold">VoiceFlow AI</span>
           </div>
 
-          <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink">Create your account</h2>
           <p className="mt-1 text-sm text-ink-soft">
-            Welcome back — manage your business dashboard.
+            Set up your dashboard login — you&apos;ll add your business next.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-ink-soft">
+                Full name
+              </label>
+              <input
+                type="text"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/10"
+                placeholder="Jane Doe"
+              />
+            </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-ink-soft">
                 Email
@@ -91,10 +105,11 @@ export default function LoginPage() {
               <input
                 type="password"
                 required
+                minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/10"
-                placeholder="••••••••"
+                placeholder="At least 8 characters"
               />
             </div>
 
@@ -109,14 +124,14 @@ export default function LoginPage() {
               disabled={submitting}
               className="w-full rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-deep disabled:opacity-60"
             >
-              {submitting ? "Signing in..." : "Sign in"}
+              {submitting ? "Creating account..." : "Create account"}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-ink-soft">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="font-medium text-navy hover:underline">
-              Sign up
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-navy hover:underline">
+              Sign in
             </Link>
           </p>
         </div>
