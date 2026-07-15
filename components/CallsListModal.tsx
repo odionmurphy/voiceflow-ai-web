@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CallRecord } from "@/lib/types";
 
 interface Props {
@@ -21,7 +21,21 @@ function formatDuration(seconds: number) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
+// Transcript is stored as "role: text" lines (see voice-service's logCall) - split each
+// line into its speaker so the full transcript can render as a conversation instead of
+// a single wall of text.
+function parseTranscript(transcript: string) {
+  return transcript.split("\n").map((line, i) => {
+    const idx = line.indexOf(": ");
+    if (idx === -1) return { role: "assistant" as const, text: line, key: i };
+    const role = line.slice(0, idx).trim();
+    return { role: role === "caller" ? ("caller" as const) : ("assistant" as const), text: line.slice(idx + 2), key: i };
+  });
+}
+
 export default function CallsListModal({ title, calls, onClose }: Props) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
@@ -90,7 +104,43 @@ export default function CallsListModal({ title, calls, onClose }: Props) {
                   <p className="mt-2 text-xs font-medium text-ink">{c.summary}</p>
                 )}
                 {c.transcript && (
-                  <p className="mt-1 line-clamp-2 text-xs text-ink-soft">{c.transcript}</p>
+                  <>
+                    {expandedId === c.id ? (
+                      <div className="mt-2 space-y-1.5">
+                        {parseTranscript(c.transcript).map((turn) => (
+                          <div
+                            key={turn.key}
+                            className={`rounded-lg px-2.5 py-1.5 text-xs ${
+                              turn.role === "caller"
+                                ? "bg-teal-soft text-ink"
+                                : "bg-paper text-ink"
+                            }`}
+                          >
+                            <span className="font-semibold capitalize">
+                              {turn.role === "caller" ? "Caller" : "AI"}:
+                            </span>{" "}
+                            {turn.text}
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => setExpandedId(null)}
+                          className="mt-1 text-xs font-medium text-navy hover:underline"
+                        >
+                          Hide transcript
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="mt-1 flex items-start justify-between gap-2">
+                        <p className="line-clamp-2 text-xs text-ink-soft">{c.transcript}</p>
+                        <button
+                          onClick={() => setExpandedId(c.id)}
+                          className="shrink-0 text-xs font-medium text-navy hover:underline"
+                        >
+                          View full
+                        </button>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             ))}
