@@ -8,6 +8,7 @@ import StatCard from "@/components/StatCard";
 import AppointmentCard from "@/components/AppointmentCard";
 import AppointmentDetailModal from "@/components/AppointmentDetailModal";
 import CallsListModal from "@/components/CallsListModal";
+import RevenueListModal from "@/components/RevenueListModal";
 import CreateBusinessModal from "@/components/CreateBusinessModal";
 import TrendsSection from "@/components/TrendsSection";
 
@@ -21,6 +22,7 @@ export default function OverviewPage() {
   const [callsModal, setCallsModal] = useState<{ title: string; calls: CallRecord[] } | null>(
     null
   );
+  const [showRevenueList, setShowRevenueList] = useState(false);
   const scheduleRef = useRef<HTMLHeadingElement>(null);
 
   function load() {
@@ -74,9 +76,10 @@ export default function OverviewPage() {
   const missedCalls = todaysCalls.filter((c) => c.status === "missed");
   const answeredToday = answeredCalls.length;
   const missedToday = missedCalls.length;
-  const revenueToday = todaysAppointments
-    .filter((a) => a.status === "confirmed" || a.status === "completed")
-    .reduce((sum, a) => sum + (a.price ?? 0), 0);
+  const revenueAppointments = todaysAppointments.filter(
+    (a) => (a.status === "confirmed" || a.status === "completed") && a.price != null
+  );
+  const revenueToday = revenueAppointments.reduce((sum, a) => sum + (a.price ?? 0), 0);
 
   return (
     <div>
@@ -111,6 +114,7 @@ export default function OverviewPage() {
           note="Today, confirmed + completed"
           icon="💰"
           tone="amber"
+          onClick={() => setShowRevenueList(true)}
         />
       </div>
 
@@ -169,6 +173,13 @@ export default function OverviewPage() {
         />
       )}
 
+      {showRevenueList && (
+        <RevenueListModal
+          title="Revenue today"
+          appointments={revenueAppointments}
+          onClose={() => setShowRevenueList(false)}
+        />
+      )}
     </div>
   );
 }
