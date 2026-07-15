@@ -53,6 +53,7 @@ export interface Appointment {
   customer_name?: string;
   customer_phone?: string;
   service_name: string | null;
+  price: number | null;
   start_time: string;
   end_time: string;
   status: AppointmentStatus;
@@ -88,6 +89,7 @@ export interface Analytics {
     appointments_completed: number;
     appointments_cancelled: number;
     appointments_no_show: number;
+    revenue: number;
     answerRate: number | null;
     noShowRate: number | null;
   };

@@ -83,6 +83,13 @@ export default function TrendsSection({ businessId }: { businessId: string }) {
               icon="⚠️"
               tone={data.totals.noShowRate && data.totals.noShowRate > 0.1 ? "red" : "navy"}
             />
+            <StatCard
+              label="Revenue"
+              value={`$${Number(data.totals.revenue ?? 0).toFixed(2)}`}
+              note="Confirmed + completed"
+              icon="💰"
+              tone="amber"
+            />
           </div>
 
           <div className="mt-4 rounded-xl border border-border bg-panel p-5">

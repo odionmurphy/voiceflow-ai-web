@@ -8,7 +8,6 @@ import StatCard from "@/components/StatCard";
 import AppointmentCard from "@/components/AppointmentCard";
 import AppointmentDetailModal from "@/components/AppointmentDetailModal";
 import CallsListModal from "@/components/CallsListModal";
-import InfoModal from "@/components/InfoModal";
 import CreateBusinessModal from "@/components/CreateBusinessModal";
 import TrendsSection from "@/components/TrendsSection";
 
@@ -22,7 +21,6 @@ export default function OverviewPage() {
   const [callsModal, setCallsModal] = useState<{ title: string; calls: CallRecord[] } | null>(
     null
   );
-  const [showRevenueInfo, setShowRevenueInfo] = useState(false);
   const scheduleRef = useRef<HTMLHeadingElement>(null);
 
   function load() {
@@ -76,6 +74,9 @@ export default function OverviewPage() {
   const missedCalls = todaysCalls.filter((c) => c.status === "missed");
   const answeredToday = answeredCalls.length;
   const missedToday = missedCalls.length;
+  const revenueToday = todaysAppointments
+    .filter((a) => a.status === "confirmed" || a.status === "completed")
+    .reduce((sum, a) => sum + (a.price ?? 0), 0);
 
   return (
     <div>
@@ -106,11 +107,10 @@ export default function OverviewPage() {
         />
         <StatCard
           label="Revenue"
-          value="—"
-          note="Coming in Phase 4 (billing)"
+          value={`$${revenueToday.toFixed(2)}`}
+          note="Today, confirmed + completed"
           icon="💰"
           tone="amber"
-          onClick={() => setShowRevenueInfo(true)}
         />
       </div>
 
@@ -169,13 +169,6 @@ export default function OverviewPage() {
         />
       )}
 
-      {showRevenueInfo && (
-        <InfoModal
-          title="Revenue"
-          message="Revenue tracking is coming in Phase 4 (billing) — it'll be wired up to Stripe subscriptions and per-appointment revenue."
-          onClose={() => setShowRevenueInfo(false)}
-        />
-      )}
     </div>
   );
 }
