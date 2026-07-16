@@ -119,6 +119,16 @@ export default function LoginPage() {
               Sign up
             </Link>
           </p>
+
+          <p className="mt-8 text-center text-xs text-ink-soft/70">
+            <Link href="/privacy" className="hover:underline">
+              Privacy Policy
+            </Link>
+            {" · "}
+            <Link href="/terms" className="hover:underline">
+              Terms of Service
+            </Link>
+          </p>
         </div>
       </div>
     </div>
