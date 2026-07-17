@@ -146,6 +146,11 @@ export default function RegisterPage() {
             </Link>
             .
           </p>
+          <p className="mt-2 text-center text-xs text-ink-soft/70">
+            <Link href="/impressum" className="hover:underline">
+              Impressum
+            </Link>
+          </p>
         </div>
       </div>
     </div>

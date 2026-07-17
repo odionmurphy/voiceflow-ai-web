@@ -128,6 +128,10 @@ export default function LoginPage() {
             <Link href="/terms" className="hover:underline">
               Terms of Service
             </Link>
+            {" · "}
+            <Link href="/impressum" className="hover:underline">
+              Impressum
+            </Link>
           </p>
         </div>
       </div>
