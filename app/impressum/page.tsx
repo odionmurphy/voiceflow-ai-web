@@ -19,10 +19,9 @@ export default function ImpressumPage() {
       <p className="mt-1 text-sm text-ink-soft">Legal notice per § 5 TMG</p>
 
       <div className="mt-8 rounded-lg border border-amber bg-amber-soft/40 p-4 text-sm text-ink">
-        <strong>Before going live, still needed:</strong> a full street address
-        (house number - &quot;Horlecke&quot; alone isn&apos;t a complete address), a
-        phone number, and your VAT status. Double-check the city (Menden (Sauerland)
-        was inferred from the postal code - confirm that&apos;s correct).
+        <strong>Before going live, still needed:</strong> a phone number and your VAT
+        status. Double-check the city (Menden (Sauerland) was inferred from the postal
+        code - confirm that&apos;s correct).
       </div>
 
       <div className="prose-sm mt-8 space-y-6 text-sm leading-relaxed text-ink-soft">
@@ -33,7 +32,7 @@ export default function ImpressumPage() {
           <p className="mt-2">
             Greener-Tech
             <br />
-            Horlecke [HOUSE NUMBER MISSING]
+            Horlecke 20
             <br />
             58706 Menden (Sauerland) [CONFIRM CITY]
             <br />
