@@ -54,7 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="mb-8 flex items-center gap-2 border-b border-white/10 px-1 pb-6">
             <span className="pulse-dot h-2 w-2 rounded-full bg-amber text-amber" />
             <span className="font-display text-base font-semibold tracking-tight">
-              VoiceFlow AI
+              Praxisline AI
             </span>
           </div>
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy — VoiceFlow AI",
+  title: "Privacy Policy — Praxisline AI",
 };
 
 export default function PrivacyPage() {
@@ -10,7 +10,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
       <Link href="/" className="text-sm font-medium text-navy hover:underline">
-        &larr; Back to VoiceFlow AI
+        &larr; Back to Praxisline AI
       </Link>
 
       <h1 className="mt-6 font-display text-3xl font-semibold text-ink">Privacy Policy</h1>
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
           <h2 className="font-display text-lg font-semibold text-ink">1. Who this applies to</h2>
           <p className="mt-2">
             This policy covers two kinds of people: <strong className="text-ink">business owners</strong> who
-            sign up for a VoiceFlow AI dashboard account, and <strong className="text-ink">callers</strong> whose
+            sign up for a Praxisline AI dashboard account, and <strong className="text-ink">callers</strong> whose
             calls are answered by a business&apos;s AI receptionist. If you&apos;re a caller with questions about a
             specific business&apos;s own data practices, contact that business directly — they control their own
             customer records.
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-display text-lg font-semibold text-ink">9. Contact</h2>
           <p className="mt-2">
-            Questions about this policy or your data? Contact the account owner listed for your VoiceFlow AI
+            Questions about this policy or your data? Contact the account owner listed for your Praxisline AI
             dashboard, or reach out via the support channel provided at signup.
           </p>
         </section>

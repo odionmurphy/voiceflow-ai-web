@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service — VoiceFlow AI",
+  title: "Terms of Service — Praxisline AI",
 };
 
 export default function TermsPage() {
@@ -10,7 +10,7 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
       <Link href="/" className="text-sm font-medium text-navy hover:underline">
-        &larr; Back to VoiceFlow AI
+        &larr; Back to Praxisline AI
       </Link>
 
       <h1 className="mt-6 font-display text-3xl font-semibold text-ink">Terms of Service</h1>
@@ -20,7 +20,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-display text-lg font-semibold text-ink">1. The service</h2>
           <p className="mt-2">
-            VoiceFlow AI provides an AI phone receptionist, appointment booking, and customer management dashboard
+            Praxisline AI provides an AI phone receptionist, appointment booking, and customer management dashboard
             for businesses. By creating an account, you agree to these terms.
           </p>
         </section>

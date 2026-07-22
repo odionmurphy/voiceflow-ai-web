@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Impressum — VoiceFlow AI",
+  title: "Impressum — Praxisline AI",
 };
 
 // German law (§ 5 TMG / Telemediengesetz) requires every commercial website reachable
@@ -12,7 +12,7 @@ export default function ImpressumPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
       <Link href="/" className="text-sm font-medium text-navy hover:underline">
-        &larr; Back to VoiceFlow AI
+        &larr; Back to Praxisline AI
       </Link>
 
       <h1 className="mt-6 font-display text-3xl font-semibold text-ink">Impressum</h1>

@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "VoiceFlow AI — Business Dashboard",
+  title: "Praxisline AI — Business Dashboard",
   description: "Manage your AI receptionist, appointments, and customers.",
 };
 

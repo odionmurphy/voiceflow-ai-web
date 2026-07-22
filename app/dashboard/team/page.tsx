@@ -105,7 +105,7 @@ export default function TeamPage() {
               className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             />
             <p className="mt-1 text-xs text-ink-soft">
-              They must already have a VoiceFlow AI account — ask them to sign up first.
+              They must already have a Praxisline AI account — ask them to sign up first.
             </p>
           </div>
           <button
