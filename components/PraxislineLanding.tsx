@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PraxislineLanding() {
   return (
     <div className="praxisline-landing" lang="de">
@@ -11,6 +13,7 @@ export default function PraxislineLanding() {
             <a href="#demo">Demo</a>
             <a href="#funktionen">Funktionen</a>
             <a href="#preise">Preise</a>
+            <Link href="/login">Anmelden</Link>
             <a className="nav-cta" href="https://calendly.com/djmurphy041/30min">
               Erstgespräch buchen
             </a>

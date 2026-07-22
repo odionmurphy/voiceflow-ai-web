@@ -34,12 +34,12 @@ export default function LoginPage() {
       <div className="grid lg:grid-cols-2">
         {/* Left panel: brand */}
         <div className="relative hidden min-h-screen flex-col justify-between bg-navy px-12 py-10 text-white lg:flex">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-amber text-amber" />
             <span className="font-display text-lg font-semibold tracking-tight">
               Praxisline AI
             </span>
-          </div>
+          </Link>
 
           <div className="max-w-md">
             <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight">
@@ -62,10 +62,10 @@ export default function LoginPage() {
         {/* Right panel: form */}
         <div className="flex min-h-screen flex-col items-center justify-center px-6 py-16">
           <div className="w-full max-w-sm">
-            <div className="mb-8 flex items-center gap-2 lg:hidden">
+            <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
               <span className="pulse-dot h-2 w-2 rounded-full bg-amber text-amber" />
               <span className="font-display text-base font-semibold">Praxisline AI</span>
-            </div>
+            </Link>
 
             <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
             <p className="mt-1 text-sm text-ink-soft">
