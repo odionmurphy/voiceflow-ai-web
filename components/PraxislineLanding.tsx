@@ -9,13 +9,13 @@ export default function PraxislineLanding() {
             <span className="logo-mark"></span>Praxisline AI
           </div>
           <div className="nav-links">
-            <a href="#problem">Warum</a>
-            <a href="#demo">Demo</a>
-            <a href="#funktionen">Funktionen</a>
-            <a href="#preise">Preise</a>
-            <Link href="/login">Anmelden</Link>
+            <a href="#problem">🤔 Warum</a>
+            <a href="#demo">🎧 Demo</a>
+            <a href="#funktionen">✨ Funktionen</a>
+            <a href="#preise">💶 Preise</a>
+            <Link href="/login">🔑 Anmelden</Link>
             <a className="nav-cta" href="https://calendly.com/djmurphy041/30min">
-              Erstgespräch buchen
+              📅 Erstgespräch buchen
             </a>
           </div>
         </nav>
