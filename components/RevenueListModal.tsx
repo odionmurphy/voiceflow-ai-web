@@ -9,7 +9,11 @@ interface Props {
   onClose: () => void;
 }
 
-export default function RevenueListModal({ title, appointments, onClose }: Props) {
+export default function RevenueListModal({
+  title,
+  appointments,
+  onClose,
+}: Props) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
@@ -18,8 +22,13 @@ export default function RevenueListModal({ title, appointments, onClose }: Props
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const sorted = [...appointments].sort((a, b) => a.start_time.localeCompare(b.start_time));
-  const total = sorted.reduce((sum, a) => sum + (a.price ?? 0), 0);
+  const sorted = [...appointments].sort((a, b) =>
+    a.start_time.localeCompare(b.start_time),
+  );
+  const total = sorted.reduce((sum, a) => {
+    const price = Number(a.price ?? 0);
+    return sum + (Number.isNaN(price) ? 0 : price);
+  }, 0);
 
   return (
     <div
@@ -31,7 +40,9 @@ export default function RevenueListModal({ title, appointments, onClose }: Props
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 className="font-display text-lg font-semibold text-ink">{title}</h2>
+          <h2 className="font-display text-lg font-semibold text-ink">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             aria-label="Close"
@@ -42,7 +53,9 @@ export default function RevenueListModal({ title, appointments, onClose }: Props
         </div>
 
         {sorted.length === 0 ? (
-          <p className="mt-5 text-sm text-ink-soft">No priced appointments yet.</p>
+          <p className="mt-5 text-sm text-ink-soft">
+            No priced appointments yet.
+          </p>
         ) : (
           <>
             <div className="mt-5 space-y-2 overflow-y-auto">
@@ -53,7 +66,11 @@ export default function RevenueListModal({ title, appointments, onClose }: Props
                       {a.customer_name ?? "Unknown customer"}
                     </span>
                     <span className="shrink-0 font-display font-semibold text-amber-deep">
-                      ${(a.price ?? 0).toFixed(2)}
+                      $
+                      {(() => {
+                        const p = Number(a.price ?? 0);
+                        return (Number.isNaN(p) ? 0 : p).toFixed(2);
+                      })()}
                     </span>
                   </div>
                   <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-ink-soft">

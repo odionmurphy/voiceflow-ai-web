@@ -52,7 +52,7 @@ export default function BusinessHoursEditor({ value, onChange, disabled }: Props
                   value={hours[0]}
                   disabled={disabled}
                   onChange={(e) => setTime(key, 0, e.target.value)}
-                  className="rounded-lg border border-border px-2 py-1 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60"
+                  className="rounded-lg border border-border px-2 py-1 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60"
                 />
                 <span className="text-ink-soft">to</span>
                 <input
@@ -60,7 +60,7 @@ export default function BusinessHoursEditor({ value, onChange, disabled }: Props
                   value={hours[1]}
                   disabled={disabled}
                   onChange={(e) => setTime(key, 1, e.target.value)}
-                  className="rounded-lg border border-border px-2 py-1 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60"
+                  className="rounded-lg border border-border px-2 py-1 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60"
                 />
               </div>
             ) : (

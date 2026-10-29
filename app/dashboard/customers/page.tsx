@@ -86,7 +86,7 @@ export default function CustomersPage() {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
               placeholder="Jane Doe"
             />
           </div>
@@ -98,7 +98,7 @@ export default function CustomersPage() {
               required
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
               placeholder="+49 170 1234567"
             />
           </div>
@@ -110,7 +110,7 @@ export default function CustomersPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
               placeholder="jane@example.com"
             />
           </div>

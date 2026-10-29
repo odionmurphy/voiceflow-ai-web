@@ -147,7 +147,7 @@ export default function AppointmentsPage() {
               required
               value={customerId}
               onChange={(e) => setCustomerId(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             >
               <option value="" disabled>
                 {customers.length === 0 ? "No customers yet" : "Select a customer"}
@@ -166,7 +166,7 @@ export default function AppointmentsPage() {
             <select
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             >
               <option value="">No specific service ({DEFAULT_DURATION} min)</option>
               {services.map((s) => (
@@ -183,7 +183,7 @@ export default function AppointmentsPage() {
             <select
               value={staffId}
               onChange={(e) => setStaffId(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             >
               <option value="">Any available</option>
               {members.map((m) => (
@@ -200,7 +200,7 @@ export default function AppointmentsPage() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             />
           </div>
 

@@ -85,12 +85,16 @@ export default function SettingsPage() {
       if (hasLiveSubscription(subscription)) {
         // Already have a live Stripe subscription - swap its price in place instead of
         // starting a second, parallel one via Checkout.
-        const updated = await changePlan(activeBusiness.id, plan);
-        setSubscription(updated);
-        setBillingActionPlan(null);
+        const result = await changePlan(activeBusiness.id, plan);
+        if (result.kind === "checkout") {
+          window.location.assign(result.url);
+        } else {
+          setSubscription(result.subscription);
+          setBillingActionPlan(null);
+        }
       } else {
         const url = await getCheckoutUrl(activeBusiness.id, plan);
-        window.location.href = url;
+        window.location.assign(url);
       }
     } catch (err) {
       setBillingError(err instanceof ApiError ? err.message : "Could not change plan.");
@@ -104,7 +108,7 @@ export default function SettingsPage() {
     setPortalLoading(true);
     try {
       const url = await getBillingPortalUrl(activeBusiness.id);
-      window.location.href = url;
+      window.location.assign(url);
     } catch (err) {
       setBillingError(err instanceof ApiError ? err.message : "Could not open billing portal.");
       setPortalLoading(false);
@@ -130,7 +134,7 @@ export default function SettingsPage() {
     setConnecting(true);
     try {
       const authUrl = await getGoogleConnectUrl(activeBusiness.id);
-      window.location.href = authUrl;
+      window.location.assign(authUrl);
     } catch (err) {
       setCalendarError(
         err instanceof ApiError ? err.message : "Could not start the connection."
@@ -201,11 +205,11 @@ export default function SettingsPage() {
   if (!activeBusiness) return null;
 
   const inputClass =
-    "w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60";
+    "w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60";
   const labelClass = "mb-1.5 block text-sm font-medium text-ink-soft";
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl">
       <h1 className="font-display text-2xl font-semibold text-ink">Business settings</h1>
       <p className="mt-1 text-sm text-ink-soft">
         This is what your AI receptionist and customers see.
@@ -216,7 +220,7 @@ export default function SettingsPage() {
         </p>
       )}
 
-      <div className="mt-6 space-y-4 rounded-xl border border-border bg-panel p-6">
+      <div className="mt-6 space-y-4 rounded-[22px] border border-border bg-panel p-6 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]">
         <div>
           <label className={labelClass}>Business name</label>
           <input
@@ -277,7 +281,7 @@ export default function SettingsPage() {
         )}
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-panel p-6">
+      <div className="mt-6 rounded-[22px] border border-border bg-panel p-6 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]">
         <h2 className="font-display text-base font-semibold text-ink">Calendar</h2>
         <p className="mt-1 text-sm text-ink-soft">
           Sync bookings to a Google Calendar so appointments show up alongside your other
@@ -360,7 +364,7 @@ export default function SettingsPage() {
       </div>
 
       {isOwner && (
-        <div className="mt-6 rounded-xl border border-border bg-panel p-6">
+        <div className="mt-6 rounded-[22px] border border-border bg-panel p-6 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]">
           <h2 className="font-display text-base font-semibold text-ink">Billing</h2>
           <p className="mt-1 text-sm text-ink-soft">
             Manage your plan and payment method.

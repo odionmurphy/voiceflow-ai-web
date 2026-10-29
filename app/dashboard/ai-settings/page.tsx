@@ -32,7 +32,7 @@ function SectionCard({
   headerRight?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-panel p-6">
+    <div className="rounded-[22px] border border-border bg-panel p-6 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)] transition-shadow duration-200 hover:shadow-[0_24px_50px_-28px_rgba(216,155,60,0.25)]">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-soft text-base">
@@ -166,11 +166,11 @@ export default function AISettingsPage() {
   // conflict with a baked-in "w-full" on the same element (that bug made the service
   // name input collapse to ~26px while the duration/price inputs inherited w-full).
   const inputClass =
-    "rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60";
+    "rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 disabled:opacity-60";
   const labelClass = "mb-1.5 block text-sm font-medium text-ink-soft";
 
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <div className="flex items-center gap-2.5">
         <span className="pulse-dot h-2 w-2 rounded-full bg-signal text-signal" />
         <h1 className="font-display text-2xl font-semibold text-ink">AI Settings</h1>
@@ -228,7 +228,7 @@ export default function AISettingsPage() {
 
             <div>
               <label className={labelClass}>Preview</label>
-              <div className="flex h-[calc(100%-22px)] min-h-[132px] flex-col justify-between rounded-lg border border-border bg-navy p-4">
+              <div className="flex h-[calc(100%-22px)] min-h-[132px] flex-col justify-between rounded-lg border border-amber/20 bg-navy-deep p-4">
                 <div className="flex items-center gap-2">
                   <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-signal text-signal" />
                   <span className="text-[11px] font-semibold uppercase tracking-wide text-white/50">

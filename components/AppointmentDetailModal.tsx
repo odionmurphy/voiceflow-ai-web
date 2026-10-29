@@ -21,9 +21,9 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 const SOURCE_STYLES: Record<string, { className: string; icon: string; label: string }> = {
-  ai_call: { className: "bg-purple-100 text-purple-700", icon: "🤖", label: "AI call" },
-  manual: { className: "bg-slate-100 text-slate-600", icon: "✍️", label: "Manual" },
-  web: { className: "bg-blue-100 text-blue-700", icon: "🌐", label: "Web" },
+  ai_call: { className: "bg-purple-500/15 text-purple-300", icon: "🤖", label: "AI call" },
+  manual: { className: "bg-slate-500/15 text-slate-300", icon: "✍️", label: "Manual" },
+  web: { className: "bg-blue-500/15 text-blue-300", icon: "🌐", label: "Web" },
 };
 
 function todayISODate() {
@@ -189,7 +189,7 @@ export default function AppointmentDetailModal({
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
               />
             </div>
             <div>

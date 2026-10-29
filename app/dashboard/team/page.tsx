@@ -80,7 +80,7 @@ export default function TeamPage() {
   if (!activeBusiness) return null;
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl">
       <h1 className="font-display text-2xl font-semibold text-ink">Team</h1>
       <p className="mt-1 text-sm text-ink-soft">
         Owners have full control. Staff can manage day-to-day work — customers, appointments,
@@ -90,7 +90,7 @@ export default function TeamPage() {
       {isOwner && (
         <form
           onSubmit={handleAdd}
-          className="mt-5 flex items-end gap-3 rounded-xl border border-border bg-panel p-5"
+          className="mt-5 flex items-end gap-3 rounded-[22px] border border-border bg-panel p-5 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]"
         >
           <div className="flex-1">
             <label className="mb-1.5 block text-sm font-medium text-ink-soft">
@@ -102,7 +102,7 @@ export default function TeamPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="teammate@example.com"
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/10"
             />
             <p className="mt-1 text-xs text-ink-soft">
               They must already have a Praxisline AI account — ask them to sign up first.
@@ -119,7 +119,7 @@ export default function TeamPage() {
       )}
       {error && <p className="mt-2 text-sm text-red">{error}</p>}
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-panel">
+      <div className="mt-6 overflow-hidden rounded-[22px] border border-border bg-panel shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]">
         {loading ? (
           <p className="p-5 text-sm text-ink-soft">Loading...</p>
         ) : (

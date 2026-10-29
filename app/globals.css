@@ -7,6 +7,11 @@
   --color-panel: #ffffff;
   --color-border: #e4e3de;
 
+  /* Warm cream card fill, matching the landing page's call-card (--card in
+     app/landing.css) - used where a card should read as "the same design and
+     shape" as that reference rather than the cooler pure-white --color-panel. */
+  --color-cream: #fbf8f0;
+
   --color-navy: #1e2740;
   --color-navy-deep: #131a2c;
   --color-navy-soft: #2c3654;
@@ -34,6 +39,7 @@
   --color-paper: var(--color-paper);
   --color-panel: var(--color-panel);
   --color-border: var(--color-border);
+  --color-cream: var(--color-cream);
 
   --color-navy: var(--color-navy);
   --color-navy-deep: var(--color-navy-deep);
@@ -60,15 +66,162 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
-h1, h2, h3, h4 {
+/* Dark theme for the logged-in dashboard only (app/dashboard/layout.tsx) - scoped
+   to this class rather than redefined globally so /login, /register, and the legal
+   pages stay on the light theme. Every dashboard page already reads colors through
+   these same semantic tokens (bg-panel, text-ink, border-border, etc.), so
+   overriding the tokens here re-themes the whole dashboard without touching every
+   component. Panel/cream reuse the sidebar's own navy family so cards genuinely
+   match the sidebar, per the original ask, rather than an unrelated dark palette. */
+.dashboard-shell {
+  /* Warm, minimal clinical dashboard palette. */
+  --color-paper: #fbfaf8;
+  --color-panel: #ffffff;
+  --color-cream: #f6f3ef;
+  --color-border: #ebe7e2;
+  --color-ink: #171b20;
+  --color-ink-soft: #737983;
+
+  --color-amber: #ef6947;
+  --color-amber-deep: #d95637;
+  --color-amber-soft: rgba(239, 105, 71, 0.1);
+
+  --color-teal: #2ab695;
+  --color-teal-soft: #dcf6ed;
+  --color-red-soft: #fff0e9;
+}
+
+/* Restrained surfaces and motion for the logged-in workspace. */
+.dashboard-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-panel);
+  box-shadow: 0 8px 18px -15px rgba(23, 27, 32, 0.28);
+}
+
+/* subtle shimmer used sparingly for media areas */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: shimmer 4.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes shimmer {
+  to {
+    left: 120%;
+  }
+}
+
+/* subtle number reveal for stats */
+@keyframes count-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.stat-value {
+  animation: count-reveal 420ms ease-out both;
+}
+
+/* button micro-interactions */
+.btn-primary {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 18, 32, 0.08);
+}
+
+/* Small animated bar wave used by StatCard to echo the landing call-card */
+.stat-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 34px;
+}
+.stat-wave span {
+  display: block;
+  width: 6px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--color-amber), rgba(0, 0, 0, 0.06));
+  animation: stat-wave 1.1s ease-in-out infinite;
+}
+.stat-wave span:nth-child(1) {
+  height: 30%;
+  animation-delay: 0s;
+}
+.stat-wave span:nth-child(2) {
+  height: 70%;
+  animation-delay: 0.08s;
+}
+.stat-wave span:nth-child(3) {
+  height: 45%;
+  animation-delay: 0.16s;
+}
+.stat-wave span:nth-child(4) {
+  height: 90%;
+  animation-delay: 0.24s;
+}
+.stat-wave span:nth-child(5) {
+  height: 35%;
+  animation-delay: 0.32s;
+}
+.stat-wave span:nth-child(6) {
+  height: 65%;
+  animation-delay: 0.4s;
+}
+
+@keyframes stat-wave {
+  0%,
+  100% {
+    transform: scaleY(0.45);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display), system-ui, sans-serif;
 }
 
 /* Signature element: a soft pulse used sparingly to signal "AI is listening" */
 @keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  70% { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 .pulse-dot {
   position: relative;
@@ -84,24 +237,40 @@ h1, h2, h3, h4 {
 
 /* Card entrance used by clickable list cards (appointments, schedule rows) */
 @keyframes card-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .card-in {
   animation: card-in 0.3s ease-out both;
 }
 
 @keyframes overlay-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .overlay-in {
   animation: overlay-in 0.15s ease-out both;
 }
 
 @keyframes modal-in {
-  from { opacity: 0; transform: scale(0.96) translateY(4px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 .modal-in {
   animation: modal-in 0.2s cubic-bezier(0.2, 0.8, 0.4, 1) both;

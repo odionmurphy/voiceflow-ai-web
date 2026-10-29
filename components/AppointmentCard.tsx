@@ -16,9 +16,9 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 const SOURCE_STYLES: Record<string, { className: string; icon: string; label: string }> = {
-  ai_call: { className: "bg-purple-100 text-purple-700", icon: "🤖", label: "AI call" },
-  manual: { className: "bg-slate-100 text-slate-600", icon: "✍️", label: "Manual" },
-  web: { className: "bg-blue-100 text-blue-700", icon: "🌐", label: "Web" },
+  ai_call: { className: "bg-purple-500/15 text-purple-300", icon: "🤖", label: "AI call" },
+  manual: { className: "bg-slate-500/15 text-slate-300", icon: "✍️", label: "Manual" },
+  web: { className: "bg-blue-500/15 text-blue-300", icon: "🌐", label: "Web" },
 };
 
 export default function AppointmentCard({ appointment, onClick, compact, style }: Props) {

@@ -1,8 +1,12 @@
+import path from "path";
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Pin the project root to this folder. The parent directory has its own
+  // package-lock.json, which made Next treat the whole monorepo as the root.
+  turbopack: { root: path.join(__dirname) },
+  outputFileTracingRoot: path.join(__dirname),
 };
 
 export default withSentryConfig(nextConfig, {

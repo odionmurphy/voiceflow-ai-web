@@ -50,7 +50,7 @@ export async function apiFetch<T = unknown>(
 
   if (res.status === 204) return undefined as T;
 
-  let data: any = null;
+  let data: unknown = null;
   try {
     data = await res.json();
   } catch {
@@ -58,9 +58,21 @@ export async function apiFetch<T = unknown>(
   }
 
   if (!res.ok) {
-    const message =
-      data?.error?.formErrors?.join(", ") || data?.error || `Request failed (${res.status})`;
-    throw new ApiError(typeof message === "string" ? message : JSON.stringify(message), res.status);
+    const payload =
+      typeof data === "object" && data !== null
+        ? (data as { error?: unknown })
+        : null;
+    const error = payload?.error;
+    let message = `Request failed (${res.status})`;
+    if (typeof error === "string") {
+      message = error;
+    } else if (typeof error === "object" && error !== null) {
+      const formErrors = (error as { formErrors?: unknown }).formErrors;
+      message = Array.isArray(formErrors)
+        ? formErrors.filter((item): item is string => typeof item === "string").join(", ")
+        : JSON.stringify(error);
+    }
+    throw new ApiError(message, res.status);
   }
 
   return data as T;

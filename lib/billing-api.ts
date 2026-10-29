@@ -10,6 +10,10 @@ export interface Subscription {
   stripe_subscription_id: string | null;
 }
 
+export type ChangePlanResult =
+  | { kind: "updated"; subscription: Subscription }
+  | { kind: "checkout"; url: string };
+
 // A subscription can only be changed in place (vs. started fresh via Checkout) once it
 // has a live Stripe subscription behind it.
 export function hasLiveSubscription(sub: Subscription | null): boolean {
@@ -31,12 +35,11 @@ export async function getCheckoutUrl(businessId: string, plan: string) {
   return data.url;
 }
 
-export async function changePlan(businessId: string, plan: string) {
-  const data = await apiFetch<{ subscription: Subscription }>(
+export async function changePlan(businessId: string, plan: string): Promise<ChangePlanResult> {
+  return apiFetch<ChangePlanResult>(
     `/payments/${businessId}/change-plan`,
     { method: "POST", body: { plan } }
   );
-  return data.subscription;
 }
 
 export async function getBillingPortalUrl(businessId: string) {
