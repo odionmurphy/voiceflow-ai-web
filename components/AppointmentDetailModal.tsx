@@ -44,6 +44,7 @@ export default function AppointmentDetailModal({
 }: Props) {
   const { activeBusiness } = useBusiness();
   const isOwner = activeBusiness?.role === "owner";
+  const timeZone = activeBusiness?.timezone;
 
   const [cancelling, setCancelling] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -163,14 +164,28 @@ export default function AppointmentDetailModal({
           <div className="flex justify-between border-t border-border pt-3">
             <span className="text-ink-soft">Date</span>
             <span className="font-medium text-ink">
-              {start.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })}
+              {start.toLocaleDateString([], {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                timeZone,
+              })}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-ink-soft">Time</span>
             <span className="font-medium text-ink">
-              {start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} –{" "}
-              {end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              {start.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                timeZone,
+              })}{" "}
+              –{" "}
+              {end.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                timeZone,
+              })}
             </span>
           </div>
           <div className="flex justify-between">
@@ -216,6 +231,7 @@ export default function AppointmentDetailModal({
                       {new Date(slot).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
+                        timeZone,
                       })}
                     </button>
                   ))}

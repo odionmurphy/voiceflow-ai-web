@@ -243,7 +243,7 @@ export default function OverviewPage() {
               Today&apos;s schedule
             </h2>
             <Link
-              href="/dashboard/appointments"
+              href="/dashboard/calendar"
               className="text-[11px] font-medium text-[#eb623f] hover:text-[#c94a2e]"
             >
               View all
