@@ -110,12 +110,12 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
             <g>
               <defs>
                 <linearGradient id="grad-calls" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#1E4E59" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#1E4E59" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="grad-booked" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#27b797" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#27b797" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#B97A1F" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#B97A1F" stopOpacity="0" />
                 </linearGradient>
               </defs>
 
@@ -132,7 +132,7 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                 <path
                   d={callsPath}
                   fill="none"
-                  stroke="#3b82f6"
+                  stroke="#1E4E59"
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -143,7 +143,7 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                 <path
                   d={bookedPath}
                   fill="none"
-                  stroke="#27b797"
+                  stroke="#B97A1F"
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -180,8 +180,8 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                     />
                     {isHovered && (
                       <>
-                        <circle cx={centerX} cy={callsY} r={4} fill="#3b82f6" stroke="white" strokeWidth={2} />
-                        <circle cx={centerX} cy={bookedY} r={4} fill="#27b797" stroke="white" strokeWidth={2} />
+                        <circle cx={centerX} cy={callsY} r={4} fill="#1E4E59" stroke="#FBF8F0" strokeWidth={2} />
+                        <circle cx={centerX} cy={bookedY} r={4} fill="#B97A1F" stroke="#FBF8F0" strokeWidth={2} />
                       </>
                     )}
 
@@ -221,10 +221,10 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                         strokeDasharray="3 4"
                       />
                       <g>
-                        <rect x={tooltipX} y={tooltipY} width={102} height={82} rx={10} fill="white" stroke="#ebe7e2" />
-                        <text x={tooltipX + 10} y={tooltipY + 18} fontSize={11} fill="#171b20">{formatDayLabel(point.day)}</text>
-                        <text x={tooltipX + 10} y={tooltipY + 42} fontSize={11} fill="#3b82f6">calls : {point.calls_answered + point.calls_missed}</text>
-                        <text x={tooltipX + 10} y={tooltipY + 65} fontSize={11} fill="#27b797">booked : {point.appointments_booked}</text>
+                        <rect x={tooltipX} y={tooltipY} width={102} height={82} rx={10} fill="#FBF8F0" stroke="#DDD6C3" />
+                        <text x={tooltipX + 10} y={tooltipY + 18} fontSize={11} fill="#152226">{formatDayLabel(point.day)}</text>
+                        <text x={tooltipX + 10} y={tooltipY + 42} fontSize={11} fill="#1E4E59">Calls: {point.calls_answered + point.calls_missed}</text>
+                        <text x={tooltipX + 10} y={tooltipY + 65} fontSize={11} fill="#B97A1F">Booked: {point.appointments_booked}</text>
                       </g>
                     </g>
                   );

@@ -74,28 +74,55 @@ body {
    component. Panel/cream reuse the sidebar's own navy family so cards genuinely
    match the sidebar, per the original ask, rather than an unrelated dark palette. */
 .dashboard-shell {
-  /* Warm, minimal clinical dashboard palette. */
-  --color-paper: #fbfaf8;
-  --color-panel: #ffffff;
-  --color-cream: #f6f3ef;
-  --color-border: #ebe7e2;
-  --color-ink: #171b20;
-  --color-ink-soft: #737983;
+  /* Praxisline workspace palette: bone paper, petrol ink, one amber accent.
+     Shared with the landing page so the product and the site read as one. */
+  --color-paper: #f4f0e6;
+  --color-panel: #fbf8f0;
+  --color-cream: #efe9da;
+  --color-border: #ddd6c3;
+  --color-ink: #152226;
+  --color-ink-soft: #55676c;
 
-  --color-amber: #ef6947;
-  --color-amber-deep: #d95637;
-  --color-amber-soft: rgba(239, 105, 71, 0.1);
+  --color-navy: #153b45;
+  --color-navy-deep: #0f2c34;
+  --color-navy-soft: #1e4e59;
 
-  --color-teal: #2ab695;
-  --color-teal-soft: #dcf6ed;
-  --color-red-soft: #fff0e9;
+  --color-amber: #dd9633;
+  --color-amber-deep: #9a6313;
+  --color-amber-soft: #f3e2bf;
+
+  --color-teal: #4a6b50;
+  --color-teal-soft: #dde8dc;
+  --color-red: #a8403a;
+  --color-red-soft: #f4dfdb;
+
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-ibm-plex-sans);
+
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
+  color: var(--color-ink);
 }
 
-/* Restrained surfaces and motion for the logged-in workspace. */
+.dashboard-shell :focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-shell *,
+  .dashboard-shell *::before,
+  .dashboard-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Restrained surface for the logged-in workspace. */
 .dashboard-card {
   border: 1px solid var(--color-border);
   background: var(--color-panel);
-  box-shadow: 0 8px 18px -15px rgba(23, 27, 32, 0.28);
+  border-radius: 8px;
 }
 
 /* subtle shimmer used sparingly for media areas */
