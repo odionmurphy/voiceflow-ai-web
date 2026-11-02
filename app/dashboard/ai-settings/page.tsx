@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useBusiness } from "@/lib/business-context";
-import { getAISettings, updateAISettings } from "@/lib/business-api";
+import {
+  getAISettings,
+  listWidgetLeads,
+  updateAISettings,
+  WidgetLead,
+} from "@/lib/business-api";
+import { ApiError } from "@/lib/api";
 import { AIService, AIFaqItem } from "@/lib/types";
 
 type ServiceRow = { name: string; durationMinutes: string; price: string };
@@ -53,7 +59,7 @@ function SectionCard({
 export default function AISettingsPage() {
   const { activeBusiness } = useBusiness();
   const isOwner = activeBusiness?.role === "owner";
-  const [loading, setLoading] = useState(true);
+  const [loadedBusinessId, setLoadedBusinessId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -68,12 +74,20 @@ export default function AISettingsPage() {
   const [forwardingNumber, setForwardingNumber] = useState("");
   const [notifyEmail, setNotifyEmail] = useState("");
   const [privacyPolicyUrl, setPrivacyPolicyUrl] = useState("");
+  const [websiteDomainsText, setWebsiteDomainsText] = useState("");
+  const [widgetLeads, setWidgetLeads] = useState<WidgetLead[]>([]);
+  const [leadsError, setLeadsError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
+  const loading = Boolean(activeBusiness && loadedBusinessId !== activeBusiness.id);
 
   useEffect(() => {
-    if (!activeBusiness) return;
-    setLoading(true);
-    getAISettings(activeBusiness.id)
+    const businessId = activeBusiness?.id;
+    if (!businessId) return;
+    let cancelled = false;
+    getAISettings(businessId)
       .then((data) => {
+        if (cancelled) return;
         setGreeting(data.greeting ?? "");
         setAssistantName(data.booking_rules?.assistantName ?? "");
         setLanguage(data.booking_rules?.language ?? "en-US");
@@ -103,8 +117,45 @@ export default function AISettingsPage() {
         setForwardingNumber(data.booking_rules?.forwardingNumber ?? "");
         setNotifyEmail(data.booking_rules?.notifyEmail ?? "");
         setPrivacyPolicyUrl(data.booking_rules?.privacyPolicyUrl ?? "");
+        setWebsiteDomainsText((data.booking_rules?.websiteDomains ?? []).join("\n"));
       })
-      .finally(() => setLoading(false));
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setSettingsError(
+            err instanceof ApiError ? err.message : "Could not load AI settings."
+          );
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoadedBusinessId(businessId);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeBusiness?.id]);
+
+  useEffect(() => {
+    if (!activeBusiness) return;
+    let cancelled = false;
+    listWidgetLeads(activeBusiness.id)
+      .then((leads) => {
+        if (!cancelled) {
+          setWidgetLeads(leads);
+          setLeadsError(null);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setLeadsError(
+            err instanceof ApiError
+              ? err.message
+              : "Could not load website enquiries."
+          );
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [activeBusiness]);
 
   function addService() {
@@ -131,7 +182,16 @@ export default function AISettingsPage() {
     if (!activeBusiness) return;
     setSaving(true);
     setSaved(false);
+    setSaveError(null);
     try {
+      const websiteDomains = Array.from(
+        new Set(
+          websiteDomainsText
+            .split(/[\n,]/)
+            .map((origin) => origin.trim())
+            .filter(Boolean)
+        )
+      );
       await updateAISettings(activeBusiness.id, {
         greeting,
         services: services.map((s) => ({
@@ -148,11 +208,16 @@ export default function AISettingsPage() {
           forwardingNumber: forwardingNumber || undefined,
           notifyEmail: notifyEmail || undefined,
           privacyPolicyUrl: privacyPolicyUrl || undefined,
+          websiteDomains,
           language,
         },
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
+    } catch (err) {
+      setSaveError(
+        err instanceof ApiError ? err.message : "Could not save AI settings."
+      );
     } finally {
       setSaving(false);
     }
@@ -178,13 +243,16 @@ export default function AISettingsPage() {
       <p className="mt-1 text-sm text-ink-soft">
         Configure how your AI receptionist greets callers and handles bookings.
       </p>
+      {settingsError && (
+        <p role="alert" className="mt-3 text-sm text-red">{settingsError}</p>
+      )}
       {!isOwner && (
         <p className="mt-3 rounded-lg bg-amber-soft px-3 py-2 text-xs font-medium text-amber-deep">
           Only the business owner can edit AI settings. You&apos;re viewing this as staff.
         </p>
       )}
 
-      <fieldset disabled={!isOwner} className="m-0 mt-6 space-y-6 border-0 p-0">
+      <fieldset disabled={!isOwner || Boolean(settingsError)} className="m-0 mt-6 space-y-6 border-0 p-0">
         <SectionCard icon="🤖" title="Assistant" description="Name and greeting callers hear first">
           <div className="grid gap-4 sm:grid-cols-[1fr_1.4fr]">
             <div className="space-y-4">
@@ -243,6 +311,45 @@ export default function AISettingsPage() {
                 </p>
               </div>
             </div>
+          </div>
+        </SectionCard>
+
+        <SectionCard
+          icon="💬"
+          title="Website chat widget"
+          description="Let website visitors ask questions, request an appointment, or contact your team."
+        >
+          <div className="space-y-4">
+            <div>
+              <label className={labelClass} htmlFor="website-widget-domains">
+                Websites allowed to show this widget
+              </label>
+              <textarea
+                id="website-widget-domains"
+                value={websiteDomainsText}
+                onChange={(event) => setWebsiteDomainsText(event.target.value)}
+                className={`${inputClass} min-h-24 w-full`}
+                placeholder={"https://example.com\nhttps://www.example.com"}
+                disabled={!isOwner}
+              />
+              <p className="mt-1 text-xs text-ink-soft">
+                Enter one exact HTTPS website origin per line, without a page path.
+                Add every version visitors use, such as both the www and non-www address.
+              </p>
+            </div>
+            {websiteDomainsText.trim() && (
+              <div>
+                <p className={labelClass}>Add this code to your website</p>
+                <pre className="overflow-x-auto rounded-lg bg-paper p-3 text-xs text-ink">
+{`<script src="https://voiceflow-ai-web-odionusunobuns-projects.vercel.app/praxisline-widget.js" data-business-id="${activeBusiness.id}" defer></script>`}
+                </pre>
+                <p className="mt-1 text-xs text-ink-soft">
+                  Paste it before the closing &lt;/body&gt; tag. Save your allowed website
+                  addresses first. Your FAQ, services, opening hours, and privacy link
+                  power the assistant.
+                </p>
+              </div>
+            )}
           </div>
         </SectionCard>
 
@@ -386,7 +493,9 @@ export default function AISettingsPage() {
               />
             </div>
             <div>
-              <label className={labelClass}>Notify email (call summaries)</label>
+              <label className={labelClass}>
+                Notify email (call summaries and website enquiries)
+              </label>
               <input
                 value={notifyEmail}
                 onChange={(e) => setNotifyEmail(e.target.value)}
@@ -417,6 +526,50 @@ export default function AISettingsPage() {
           {saved && <span className="text-sm font-medium text-teal">Saved</span>}
         </div>
       </fieldset>
+
+      {saveError && (
+        <p role="alert" className="mt-3 text-sm text-red">{saveError}</p>
+      )}
+
+      <section className="mt-6 rounded-[22px] border border-border bg-panel p-6">
+        <h2 className="font-display text-base font-semibold text-ink">
+          Website chat enquiries
+        </h2>
+        <p className="mt-0.5 text-xs text-ink-soft">
+          Visitors who ask your team to follow up appear here.
+        </p>
+        {leadsError ? (
+          <p role="alert" className="mt-4 text-sm text-red">{leadsError}</p>
+        ) : widgetLeads.length === 0 ? (
+          <p className="mt-4 text-sm text-ink-soft">No website enquiries yet.</p>
+        ) : (
+          <ul className="mt-4 divide-y divide-border">
+            {widgetLeads.map((lead) => (
+              <li key={lead.id} className="py-4 first:pt-0 last:pb-0">
+                <div className="flex flex-wrap justify-between gap-2">
+                  <p className="font-medium text-ink">{lead.name}</p>
+                  <time className="text-xs text-ink-soft">
+                    {new Date(lead.created_at).toLocaleString()}
+                  </time>
+                </div>
+                <p className="mt-1 text-sm text-ink-soft">{lead.message}</p>
+                <div className="mt-2 flex flex-wrap gap-3 text-sm">
+                  {lead.email && (
+                    <a className="text-amber-deep underline" href={`mailto:${lead.email}`}>
+                      {lead.email}
+                    </a>
+                  )}
+                  {lead.phone && (
+                    <a className="text-amber-deep underline" href={`tel:${lead.phone}`}>
+                      {lead.phone}
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

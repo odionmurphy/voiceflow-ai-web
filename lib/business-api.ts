@@ -78,6 +78,22 @@ export async function updateAISettings(
   return data.aiSettings;
 }
 
+export interface WidgetLead {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  message: string;
+  created_at: string;
+}
+
+export async function listWidgetLeads(businessId: string) {
+  const data = await apiFetch<{ leads: WidgetLead[] }>(
+    `/business/${businessId}/widget/leads`
+  );
+  return data.leads;
+}
+
 export async function updateBusiness(
   id: string,
   payload: Partial<{

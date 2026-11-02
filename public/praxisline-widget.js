@@ -1,0 +1,442 @@
+(() => {
+  const script = document.currentScript;
+  const businessId = script?.dataset.businessId;
+  if (!businessId) {
+    console.error("Praxisline widget: add a data-business-id to the script tag.");
+    return;
+  }
+
+  const apiBase =
+    script.dataset.apiUrl || "https://voiceflow-ai-backend-6drh.onrender.com/api/widget";
+  const voiceBase =
+    script.dataset.voiceUrl || "https://voiceflow-ai-voice-service.onrender.com/widget";
+  const endpoint = `${apiBase}/${encodeURIComponent(businessId)}`;
+  const voiceEndpoint = `${voiceBase}/${encodeURIComponent(businessId)}`;
+  const host = document.createElement("div");
+  host.style.position = "fixed";
+  host.style.zIndex = "2147483000";
+  host.style.right = "20px";
+  host.style.bottom = "20px";
+  document.body.appendChild(host);
+  const root = host.attachShadow({ mode: "open" });
+  const style = document.createElement("style");
+  style.textContent = `
+    :host { all: initial; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172a30; }
+    * { box-sizing: border-box; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .launcher { border: 0; border-radius: 999px; background: #153b45; color: #fff; padding: 14px 19px; font-size: 15px; font-weight: 650; box-shadow: 0 8px 26px #102f3944; }
+    .panel { position: absolute; right: 0; bottom: 66px; width: min(370px, calc(100vw - 32px)); height: min(560px, calc(100dvh - 110px)); display: none; flex-direction: column; overflow: hidden; border: 1px solid #dfe5e3; border-radius: 18px; background: #fff; box-shadow: 0 20px 60px #102f3933; }
+    .panel.open { display: flex; }
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; background: #153b45; color: #fff; }
+    .business { font-size: 16px; font-weight: 700; }
+    .sub { margin-top: 3px; font-size: 12px; color: #e4efed; }
+    .close { border: 0; background: transparent; color: #fff; font-size: 22px; }
+    .content { min-height: 0; flex: 1; overflow: auto; padding: 14px; }
+    .bubble { max-width: 90%; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; background: #f0f4f2; font-size: 14px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .bubble.user { margin-left: auto; background: #e8f0f1; }
+    .actions { display: flex; gap: 8px; padding: 0 14px 12px; }
+    .secondary { border: 1px solid #d5dfdc; border-radius: 9px; background: #fff; color: #153b45; padding: 8px 10px; font-size: 13px; font-weight: 600; }
+    .form { display: grid; gap: 10px; }
+    .form label { display: grid; gap: 5px; font-size: 12px; font-weight: 650; color: #3b5055; }
+    .form input, .form select, .form textarea { width: 100%; min-width: 0; border: 1px solid #cbd6d3; border-radius: 8px; padding: 9px; background: #fff; color: #172a30; font-size: 14px; }
+    .form textarea { min-height: 86px; resize: vertical; }
+    .consent { display: flex !important; grid-template-columns: 16px 1fr; align-items: start; font-weight: 400 !important; line-height: 1.4; }
+    .consent input { width: 16px !important; margin: 1px 0 0; }
+    .consent a, .contact-link { color: #89520c; }
+    .primary { border: 0; border-radius: 9px; background: #153b45; color: #fff; padding: 10px 12px; font-size: 14px; font-weight: 700; }
+    .primary:disabled { opacity: .6; cursor: wait; }
+    .error { color: #a52e32; font-size: 13px; }
+    .notice { color: #5a6c70; font-size: 12px; line-height: 1.45; }
+    .chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e3e9e7; }
+    .chat-form input { min-width: 0; flex: 1; border: 1px solid #cbd6d3; border-radius: 9px; padding: 10px; font-size: 14px; }
+    .chat-form button { border: 0; border-radius: 9px; background: #153b45; color: #fff; padding: 0 13px; font-weight: 700; }
+    @media (max-width: 480px) { :host { right: 12px !important; bottom: 12px !important; } .panel { right: -4px; width: calc(100vw - 24px); height: min(620px, calc(100dvh - 90px)); } }
+  `;
+  root.appendChild(style);
+
+  const launcher = document.createElement("button");
+  launcher.className = "launcher";
+  launcher.type = "button";
+  launcher.setAttribute("aria-expanded", "false");
+  launcher.setAttribute("aria-controls", "praxisline-widget-panel");
+  launcher.textContent = "Chat with us";
+
+  const panel = document.createElement("section");
+  panel.className = "panel";
+  panel.id = "praxisline-widget-panel";
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-label", "Website chat");
+  const header = document.createElement("div");
+  header.className = "header";
+  const titleWrap = document.createElement("div");
+  const title = document.createElement("div");
+  title.className = "business";
+  title.textContent = "Chat assistant";
+  const subtitle = document.createElement("div");
+  subtitle.className = "sub";
+  subtitle.textContent = "Replies may be generated by AI";
+  titleWrap.append(title, subtitle);
+  const close = document.createElement("button");
+  close.className = "close";
+  close.type = "button";
+  close.setAttribute("aria-label", "Close chat");
+  close.setAttribute("aria-controls", "praxisline-widget-panel");
+  close.textContent = "×";
+  header.append(titleWrap, close);
+
+  const content = document.createElement("div");
+  content.className = "content";
+  const actions = document.createElement("div");
+  actions.className = "actions";
+  const bookButton = document.createElement("button");
+  bookButton.className = "secondary";
+  bookButton.type = "button";
+  bookButton.textContent = "Book an appointment";
+  const contactButton = document.createElement("button");
+  contactButton.className = "secondary";
+  contactButton.type = "button";
+  contactButton.textContent = "Contact the team";
+  const backButton = document.createElement("button");
+  backButton.className = "secondary";
+  backButton.type = "button";
+  backButton.textContent = "Back to chat";
+  backButton.hidden = true;
+  actions.append(bookButton, contactButton, backButton);
+
+  const chatForm = document.createElement("form");
+  chatForm.className = "chat-form";
+  const chatInput = document.createElement("input");
+  chatInput.maxLength = 1200;
+  chatInput.placeholder = "Type your question…";
+  chatInput.setAttribute("aria-label", "Your message");
+  chatInput.required = true;
+  const send = document.createElement("button");
+  send.type = "submit";
+  send.textContent = "Send";
+  chatForm.append(chatInput, send);
+  panel.append(header, content, actions, chatForm);
+  root.append(launcher, panel);
+
+  let config = null;
+  let configPromise = null;
+  let messages = [];
+  let view = "chat";
+
+  async function request(url, options = {}) {
+    const response = await fetch(url, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "Something went wrong. Please try again.");
+    return data;
+  }
+
+  function addBubble(text, role) {
+    const bubble = document.createElement("div");
+    bubble.className = `bubble ${role}`;
+    bubble.textContent = text;
+    content.appendChild(bubble);
+    content.scrollTop = content.scrollHeight;
+  }
+
+  function showMessage(text, isError = false) {
+    const message = document.createElement("p");
+    message.className = isError ? "error" : "notice";
+    message.textContent = text;
+    content.replaceChildren(message);
+  }
+
+  async function loadConfig() {
+    if (!configPromise) configPromise = request(`${endpoint}/config`);
+    try {
+      config = await configPromise;
+      title.textContent = config.business.name;
+      launcher.textContent = `Chat with ${config.business.name}`;
+      if (messages.length === 0) {
+        const greeting = `Hi, I’m the AI assistant for ${config.business.name}. Ask me about services, opening hours, or appointments.`;
+        messages = [{ role: "assistant", text: greeting }];
+        addBubble(greeting, "assistant");
+      }
+      actions.hidden = false;
+      chatForm.hidden = view !== "chat";
+      backButton.hidden = view === "chat";
+      return config;
+    } catch (error) {
+      configPromise = null;
+      showMessage(error.message, true);
+      actions.hidden = true;
+      chatForm.hidden = true;
+      return null;
+    }
+  }
+
+  function field(form, labelText, input) {
+    const label = document.createElement("label");
+    label.append(document.createTextNode(labelText), input);
+    form.appendChild(label);
+    return input;
+  }
+
+  function privacyConsent(form, text) {
+    const label = document.createElement("label");
+    label.className = "consent";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.required = true;
+    label.append(checkbox, document.createTextNode(text));
+    const privacyUrl =
+      typeof config.privacyPolicyUrl === "string" &&
+      config.privacyPolicyUrl.startsWith("https://")
+        ? config.privacyPolicyUrl
+        : null;
+    if (privacyUrl) {
+      const link = document.createElement("a");
+      link.href = privacyUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = " Privacy policy";
+      label.appendChild(link);
+    }
+    form.appendChild(label);
+    return checkbox;
+  }
+
+  async function showBooking() {
+    view = "booking";
+    const data = await loadConfig();
+    if (!data) return;
+    chatForm.hidden = true;
+    backButton.hidden = false;
+    const form = document.createElement("form");
+    form.className = "form";
+    const service = document.createElement("select");
+    service.required = true;
+    service.add(new Option("Choose a service", ""));
+    for (const item of data.services || []) {
+      service.add(new Option(`${item.name} (${item.durationMinutes} min)`, item.name));
+    }
+    field(form, "Service", service);
+    const date = document.createElement("input");
+    date.type = "date";
+    date.required = true;
+    const localToday = new Date();
+    date.min = `${localToday.getFullYear()}-${String(localToday.getMonth() + 1).padStart(2, "0")}-${String(localToday.getDate()).padStart(2, "0")}`;
+    field(form, "Date", date);
+    const slot = document.createElement("select");
+    slot.required = true;
+    slot.disabled = true;
+    slot.add(new Option("Choose a date and service first", ""));
+    field(form, "Available time", slot);
+    const name = document.createElement("input");
+    name.required = true;
+    name.maxLength = 120;
+    name.autocomplete = "name";
+    field(form, "Your name", name);
+    const phone = document.createElement("input");
+    phone.type = "tel";
+    phone.required = true;
+    phone.placeholder = "+491701234567";
+    phone.autocomplete = "tel";
+    field(form, "Phone number (include country code)", phone);
+    const email = document.createElement("input");
+    email.type = "email";
+    email.autocomplete = "email";
+    field(form, "Email (optional)", email);
+    const consent = privacyConsent(
+      form,
+      "I agree that this business can use my details to manage this appointment.",
+    );
+    if (!data.services?.length) {
+      const note = document.createElement("p");
+      note.className = "notice";
+      note.textContent = "Online booking is not set up yet. Please contact the business.";
+      form.prepend(note);
+    }
+    const error = document.createElement("p");
+    error.className = "error";
+    const submit = document.createElement("button");
+    submit.className = "primary";
+    submit.type = "submit";
+    submit.textContent = "Confirm appointment";
+    submit.disabled = !data.services?.length;
+    form.append(error, submit);
+    content.replaceChildren(form);
+
+    async function loadSlots() {
+      slot.replaceChildren(new Option("Loading times…", ""));
+      slot.disabled = true;
+      if (!date.value || !service.value) return;
+      try {
+        const result = await request(
+          `${endpoint}/availability?date=${encodeURIComponent(date.value)}&service=${encodeURIComponent(service.value)}`,
+        );
+        slot.replaceChildren(new Option(result.slots.length ? "Choose a time" : "No available times", ""));
+        for (const value of result.slots) {
+          const label = new Intl.DateTimeFormat(undefined, {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: data.business.timezone,
+          }).format(new Date(value));
+          slot.add(new Option(label, value));
+        }
+        slot.disabled = !result.slots.length;
+      } catch (requestError) {
+        slot.replaceChildren(new Option("Could not load times", ""));
+        error.textContent = requestError.message;
+      }
+    }
+    service.addEventListener("change", loadSlots);
+    date.addEventListener("change", loadSlots);
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      error.textContent = "";
+      submit.disabled = true;
+      try {
+        const result = await request(`${endpoint}/book`, {
+          method: "POST",
+          body: JSON.stringify({
+            name: name.value,
+            phone: phone.value,
+            email: email.value,
+            serviceName: service.value,
+            startTime: slot.value,
+            consent: consent.checked,
+          }),
+        });
+        const when = new Intl.DateTimeFormat(undefined, {
+          dateStyle: "long",
+          timeStyle: "short",
+          timeZone: data.business.timezone,
+        }).format(new Date(result.appointment.start_time));
+        showMessage(`Your ${result.appointment.service_name} appointment is confirmed for ${when}.`, false);
+      } catch (requestError) {
+        error.textContent = requestError.message;
+        submit.disabled = false;
+        if (requestError.message.includes("no longer available") || requestError.message.includes("just booked")) {
+          await loadSlots();
+        }
+      }
+    });
+  }
+
+  async function showContact() {
+    view = "contact";
+    const data = await loadConfig();
+    if (!data) return;
+    chatForm.hidden = true;
+    backButton.hidden = false;
+    const form = document.createElement("form");
+    form.className = "form";
+    const name = document.createElement("input");
+    name.required = true;
+    name.maxLength = 120;
+    name.autocomplete = "name";
+    field(form, "Your name", name);
+    const email = document.createElement("input");
+    email.type = "email";
+    email.autocomplete = "email";
+    field(form, "Email", email);
+    const phone = document.createElement("input");
+    phone.type = "tel";
+    phone.placeholder = "+491701234567";
+    phone.autocomplete = "tel";
+    field(form, "Phone number (include country code)", phone);
+    const message = document.createElement("textarea");
+    message.required = true;
+    message.maxLength = 2000;
+    field(form, "How can the team help?", message);
+    privacyConsent(form, "I agree that this business can use my details to reply to me.");
+    const error = document.createElement("p");
+    error.className = "error";
+    const submit = document.createElement("button");
+    submit.className = "primary";
+    submit.type = "submit";
+    submit.textContent = "Send enquiry";
+    form.append(error, submit);
+    content.replaceChildren(form);
+
+    if (data.contactPhone) {
+      const direct = document.createElement("p");
+      direct.className = "notice";
+      direct.textContent = "Or contact the business directly: ";
+      const phoneNumber = String(data.contactPhone).replace(/[^\d+]/g, "");
+      if (/^\+[1-9]\d{7,14}$/.test(phoneNumber)) {
+        const link = document.createElement("a");
+        link.className = "contact-link";
+        link.href = `tel:${phoneNumber}`;
+        link.textContent = data.contactPhone;
+        direct.appendChild(link);
+      }
+      content.appendChild(direct);
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      error.textContent = "";
+      submit.disabled = true;
+      const consent = form.querySelector('input[type="checkbox"]');
+      try {
+        await request(`${endpoint}/contact`, {
+          method: "POST",
+          body: JSON.stringify({
+            name: name.value,
+            email: email.value,
+            phone: phone.value,
+            message: message.value,
+            consent: consent.checked,
+          }),
+        });
+        showMessage("Thanks. Your message has been received. The business team will follow up.", false);
+      } catch (requestError) {
+        error.textContent = requestError.message;
+        submit.disabled = false;
+      }
+    });
+  }
+
+  launcher.addEventListener("click", async () => {
+    const opening = !panel.classList.contains("open");
+    panel.classList.toggle("open", opening);
+    launcher.setAttribute("aria-expanded", String(opening));
+    if (opening) {
+      view = "chat";
+      await loadConfig();
+    }
+  });
+  close.addEventListener("click", () => {
+    panel.classList.remove("open");
+    launcher.setAttribute("aria-expanded", "false");
+  });
+  bookButton.addEventListener("click", showBooking);
+  contactButton.addEventListener("click", showContact);
+  backButton.addEventListener("click", async () => {
+    view = "chat";
+    if (!(await loadConfig())) return;
+    content.replaceChildren();
+    for (const message of messages) addBubble(message.text, message.role);
+  });
+  chatForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text || view !== "chat") return;
+    chatInput.value = "";
+    send.disabled = true;
+    messages.push({ role: "user", text });
+    addBubble(text, "user");
+    try {
+      const result = await request(`${voiceEndpoint}/chat`, {
+        method: "POST",
+        body: JSON.stringify({ messages: messages.slice(-12) }),
+      });
+      messages.push({ role: "assistant", text: result.reply });
+      addBubble(result.reply, "assistant");
+    } catch (error) {
+      addBubble(error.message, "assistant");
+    } finally {
+      send.disabled = false;
+      chatInput.focus();
+    }
+  });
+})();

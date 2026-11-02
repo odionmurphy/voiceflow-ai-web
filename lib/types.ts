@@ -129,6 +129,7 @@ export interface AIBookingRules {
   notifyEmail?: string;
   privacyPolicyUrl?: string;
   language?: string;
+  websiteDomains?: string[];
 }
 
 export interface AISettings {
