@@ -341,7 +341,7 @@ export default function AISettingsPage() {
               <div>
                 <p className={labelClass}>Add this code to your website</p>
                 <pre className="max-w-full whitespace-pre-wrap break-all rounded-lg bg-paper p-3 text-xs text-ink">
-{`<script src="https://voiceflow-ai-web-odionusunobuns-projects.vercel.app/praxisline-widget.js" data-business-id="${activeBusiness.id}" defer></script>`}
+{`<script src="https://voiceflow-ai-web.vercel.app/praxisline-widget.js" data-business-id="${activeBusiness.id}" defer></script>`}
                 </pre>
                 <p className="mt-1 text-xs text-ink-soft">
                   Paste it before the closing &lt;/body&gt; tag. Save your allowed website
