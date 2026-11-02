@@ -340,7 +340,7 @@ export default function AISettingsPage() {
             {websiteDomainsText.trim() && (
               <div>
                 <p className={labelClass}>Add this code to your website</p>
-                <pre className="overflow-x-auto rounded-lg bg-paper p-3 text-xs text-ink">
+                <pre className="max-w-full whitespace-pre-wrap break-all rounded-lg bg-paper p-3 text-xs text-ink">
 {`<script src="https://voiceflow-ai-web-odionusunobuns-projects.vercel.app/praxisline-widget.js" data-business-id="${activeBusiness.id}" defer></script>`}
                 </pre>
                 <p className="mt-1 text-xs text-ink-soft">
