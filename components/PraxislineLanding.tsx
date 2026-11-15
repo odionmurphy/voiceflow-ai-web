@@ -6,7 +6,7 @@ export default function PraxislineLanding() {
       <header>
         <nav className="wrap">
           <div className="logo">
-            <span className="logo-mark"></span>Praxisline AI
+            <span className="logo-mark"></span>WellSpring.AI
           </div>
           <div className="nav-links">
             <a href="#problem">🤔 Warum</a>
