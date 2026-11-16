@@ -1,38 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./landing.css";
 import "./landing-extras.css";
 import PraxislineLanding from "@/components/PraxislineLanding";
 
-// Only weights/styles actually used in landing.css (h1-h3 at 600, the hero's italic
-// "ans Band" at 500) - kept narrow to avoid pulling in unused font weight files.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
+// Fonts (Fraunces, IBM Plex Sans/Mono) are already loaded once in app/layout.tsx with the
+// same weights and set their CSS variables on <html>, so the landing page uses them from
+// there. Loading them again here made the production build fail.
 
 export const metadata: Metadata = {
   title: "WellSpring.AI — Ihre Praxis geht nie mehr ans Band",
 };
 
 export default function Home() {
-  return (
-    <div className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
-      <PraxislineLanding />
-    </div>
-  );
+  return <PraxislineLanding />;
 }
