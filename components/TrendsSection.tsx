@@ -76,7 +76,7 @@ export default function TrendsSection({ businessId }: { businessId: string }) {
               aria-pressed={days === option.days}
               className={`rounded px-3 py-1.5 text-[13px] transition ${
                 days === option.days
-                  ? "bg-[#153B45] font-medium text-white"
+                  ? "bg-[#2563EB] font-medium text-white"
                   : "text-ink-soft hover:text-ink"
               }`}
             >
@@ -112,14 +112,14 @@ export default function TrendsSection({ businessId }: { businessId: string }) {
               <span className="inline-flex items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className="h-0.5 w-4 rounded bg-[#1E4E59]"
+                  className="h-0.5 w-4 rounded bg-[#2563EB]"
                 />
                 Calls
               </span>
               <span className="inline-flex items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className="h-0.5 w-4 rounded bg-[#B97A1F]"
+                  className="h-0.5 w-4 rounded bg-[#8BB8FA]"
                 />
                 Appointments booked
               </span>

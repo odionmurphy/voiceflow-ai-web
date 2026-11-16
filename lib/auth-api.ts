@@ -11,7 +11,11 @@ export async function login(email: string, password: string) {
   return data.user;
 }
 
-export async function register(email: string, password: string, fullName: string) {
+export async function register(
+  email: string,
+  password: string,
+  fullName: string,
+) {
   const data = await apiFetch<{ user: User; token: string }>("/auth/register", {
     method: "POST",
     body: { email, password, fullName },

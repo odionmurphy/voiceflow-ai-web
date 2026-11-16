@@ -121,7 +121,10 @@ function buildSheet(appointments: Appointment[]): SheetRow[] {
 
     if (live && prevEnd !== null) {
       const gapMin = Math.round((start - prevEnd) / 60000);
-      if (gapMin >= 30 && !(nowPlaced === false && now > prevEnd && now < start)) {
+      if (
+        gapMin >= 30 &&
+        !(nowPlaced === false && now > prevEnd && now < start)
+      ) {
         rows.push({
           kind: "gap",
           minutes: gapMin,
@@ -193,7 +196,7 @@ export default function OverviewPage() {
         <button
           type="button"
           onClick={() => setShowCreateBusiness(true)}
-          className="mt-5 rounded-md bg-[#153B45] px-4 py-2.5 text-[14px] font-medium text-white transition hover:bg-[#0F2C34]"
+          className="mt-5 rounded-md bg-[#2563EB] px-4 py-2.5 text-[14px] font-medium text-white transition hover:bg-[#1D4ED8]"
         >
           Add a practice
         </button>
@@ -221,7 +224,9 @@ export default function OverviewPage() {
     onDay(a.start_time, yesterdayDate),
   );
   const todaysCalls = calls.filter((c) => onDay(c.created_at, now));
-  const yesterdaysCalls = calls.filter((c) => onDay(c.created_at, yesterdayDate));
+  const yesterdaysCalls = calls.filter((c) =>
+    onDay(c.created_at, yesterdayDate),
+  );
 
   const answeredCalls = todaysCalls.filter((c) => c.status === "completed");
   const missedCalls = todaysCalls.filter((c) => c.status === "missed");
@@ -268,7 +273,8 @@ export default function OverviewPage() {
   const weekAgo = now.getTime() - 7 * DAY_MS;
   const recentMissed = calls
     .filter(
-      (c) => c.status === "missed" && new Date(c.created_at).getTime() >= weekAgo,
+      (c) =>
+        c.status === "missed" && new Date(c.created_at).getTime() >= weekAgo,
     )
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
 
@@ -298,7 +304,7 @@ export default function OverviewPage() {
         </div>
         <Link
           href="/dashboard/appointments?new=1"
-          className="rounded-md bg-[#153B45] px-4 py-2.5 text-[14px] font-medium text-white transition hover:bg-[#0F2C34]"
+          className="rounded-md bg-[#2563EB] px-4 py-2.5 text-[14px] font-medium text-white transition hover:bg-[#1D4ED8]"
         >
           Add appointment
         </Link>
@@ -343,7 +349,10 @@ export default function OverviewPage() {
           note={answeredNote.text}
           tone={answeredNote.tone}
           onClick={() =>
-            setCallsModal({ title: "Calls answered today", calls: answeredCalls })
+            setCallsModal({
+              title: "Calls answered today",
+              calls: answeredCalls,
+            })
           }
         />
         <Figure
@@ -469,7 +478,7 @@ export default function OverviewPage() {
                         </span>
                         <span
                           aria-hidden="true"
-                          className={`mt-[7px] h-2 w-2 shrink-0 rounded-full ${faded ? "border border-ink/30" : "bg-[#1E4E59]"}`}
+                          className={`mt-[7px] h-2 w-2 shrink-0 rounded-full ${faded ? "border border-ink/30" : "bg-[#2563EB]"}`}
                         />
                         <span className="min-w-0 flex-1">
                           <span

@@ -1,11 +1,20 @@
 "use client";
 import Industries from "@/components/Industries";
+import BrandMark from "@/components/BrandMark";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type Lang = "de" | "en";
 
 const BOOKING_URL = "https://calendly.com/djmurphy041/30min";
+const FEATURE_SLUGS = [
+  "always-on-answering",
+  "natural-conversations",
+  "calendar-sync",
+  "call-summaries",
+  "automatic-callbacks",
+  "privacy-and-security",
+] as const;
 
 /* Background images for the first three problem cards (unchanged from the old page). */
 const PROBLEM_MEDIA = [
@@ -14,6 +23,60 @@ const PROBLEM_MEDIA = [
   "linear-gradient(135deg, rgba(241,235,220,1) 0%, rgba(110,143,115,0.06) 60%), url(https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=60)",
 ];
 const FEATURE_ICONS = ["🕐", "🗣️", "📆", "📊", "↩️", "🔒"];
+const PROMPT_EXAMPLES: {
+  icon: string;
+  label: Record<Lang, string>;
+  prompt: Record<Lang, string>;
+}[] = [
+  {
+    icon: "⌁",
+    label: { de: "Sanitär", en: "Plumbing" },
+    prompt: {
+      de: "Wenn jemand einen Wasserschaden meldet, frage zuerst, ob das Wasser abgestellt ist.\n\nNotiere die Adresse, das betroffene Zimmer und eine Rückrufnummer. Bei einem aktiven Leck markiere den Anruf als dringend.\n\nBiete anschließend den frühesten verfügbaren Termin an.",
+      en: "When someone reports a leak, first ask if they have been able to shut off the water.\n\nGet the service address, affected room, and a callback number. Mark active leaks as urgent.\n\nThen offer the earliest available appointment.",
+    },
+  },
+  {
+    icon: "◇",
+    label: { de: "Heizung & Klima", en: "HVAC" },
+    prompt: {
+      de: "Wenn die Heizung oder Klimaanlage ausgefallen ist, frage nach dem betroffenen Gerät und der Temperatur im Gebäude.\n\nBei extremen Temperaturen oder gefährdeten Personen informiere das Team sofort.\n\nErfasse Adresse und bevorzugte Rückrufzeit.",
+      en: "If the heating or air conditioning has stopped working, ask which system is affected and the temperature inside.\n\nFlag extreme temperatures or vulnerable occupants for the team right away.\n\nCollect the address and a good callback time.",
+    },
+  },
+  {
+    icon: "✚",
+    label: { de: "Zahnarztpraxis", en: "Dental" },
+    prompt: {
+      de: "Frage neue Patienten, welchen Zahnversicherungstarif sie haben.\n\nVersprich niemals eine Kostenübernahme. Notiere den Tarif und sage, dass unser Team den Versicherungsschutz prüft.\n\nBiete danach den nächsten freien Termin an und sende den Buchungslink.",
+      en: "For new patients, ask which dental plan they have.\n\nNever promise that a treatment is covered. Note the plan and tell them our team will verify their benefits.\n\nThen offer the next available appointment and send the booking link.",
+    },
+  },
+  {
+    icon: "§",
+    label: { de: "Kanzlei", en: "Law office" },
+    prompt: {
+      de: "Frage nach dem Anliegen und den Namen aller beteiligten Personen oder Unternehmen.\n\nGib keine Rechtsberatung und verspreche keine Ergebnisse. Weise darauf hin, dass das Team zuerst eine Interessenkollision prüft.\n\nErfasse die beste Rückrufzeit.",
+      en: "Ask what the caller needs help with and the names of everyone involved.\n\nDo not give legal advice or promise an outcome. Let them know the team will check for conflicts before scheduling.\n\nCapture the best time to call back.",
+    },
+  },
+  {
+    icon: "⌂",
+    label: { de: "Dachdecker", en: "Roofing" },
+    prompt: {
+      de: "Bei einem Sturmschaden frage, ob Wasser eindringt und ob der Bereich sicher betreten werden kann.\n\nNotiere Adresse, Art des Schadens und eine Rückrufnummer. Bitte um Fotos, falls dies gefahrlos möglich ist.\n\nLeite dringende Schäden sofort ans Team weiter.",
+      en: "For storm damage, ask whether water is coming in and if the area is safe to access.\n\nCollect the address, type of damage, and a callback number. Ask for photos only if it is safe to take them.\n\nEscalate urgent damage to the team.",
+    },
+  },
+  {
+    icon: "⌖",
+    label: { de: "Immobilien", en: "Real estate" },
+    prompt: {
+      de: "Frage nach dem Objekt oder der Anzeige, für die sich der Anrufer interessiert.\n\nErfasse den gewünschten Besichtigungstermin und die bevorzugte Kontaktmethode. Beantworte Fragen sachlich anhand der freigegebenen Objektdaten.\n\nLeite offene Fragen ans Team weiter.",
+      en: "Ask which property or listing the caller is interested in.\n\nCapture their preferred viewing time and contact method. Answer questions using approved listing details only.\n\nPass unanswered questions to the team.",
+    },
+  },
+];
 
 /*
   All page text lives here, once per language. Edit wording in this object.
@@ -21,12 +84,12 @@ const FEATURE_ICONS = ["🕐", "🗣️", "📆", "📊", "↩️", "🔒"];
 */
 const de = {
   nav: {
-    why: "🤔 Warum",
-    demo: "🎧 Demo",
-    features: "✨ Funktionen",
-    pricing: "💶 Preise",
-    login: "🔑 Anmelden",
-    cta: "📅 Erstgespräch buchen",
+    why: "Warum",
+    demo: "Demo",
+    features: "Funktionen",
+    pricing: "Preise",
+    login: "Anmelden",
+    cta: "Erstgespräch buchen",
   },
   hero: {
     eyebrow: "KI-Telefonassistent für Praxen",
@@ -55,15 +118,35 @@ const de = {
     summaryTitle: "Zusammenfassung für die Praxis",
     note: "Beispiel: Zahnarztpraxis Dr. Feldmann (erfunden)",
     steps: [
-      { kind: "msg", who: "caller", text: "Guten Tag, ich hätte gerne einen Termin zur Kontrolle, am liebsten diese Woche." },
-      { kind: "msg", who: "ai", text: "Guten Tag! Gerne. Ich habe am Donnerstag um 14:30 Uhr oder Freitag um 09:00 Uhr einen Platz frei. Passt Ihnen einer der beiden Termine?" },
+      {
+        kind: "msg",
+        who: "caller",
+        text: "Guten Tag, ich hätte gerne einen Termin zur Kontrolle, am liebsten diese Woche.",
+      },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Guten Tag! Gerne. Ich habe am Donnerstag um 14:30 Uhr oder Freitag um 09:00 Uhr einen Platz frei. Passt Ihnen einer der beiden Termine?",
+      },
       { kind: "msg", who: "caller", text: "Freitag um neun passt gut." },
-      { kind: "msg", who: "ai", text: "Perfekt, ich trage Sie für Freitag, 09:00 Uhr zur Kontrolle ein. Wie ist Ihr Name, damit ich den Termin korrekt anlegen kann?" },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Perfekt, ich trage Sie für Freitag, 09:00 Uhr zur Kontrolle ein. Wie ist Ihr Name, damit ich den Termin korrekt anlegen kann?",
+      },
       { kind: "msg", who: "caller", text: "Markus Schneider." },
-      { kind: "msg", who: "ai", text: "Vielen Dank, Herr Schneider. Der Termin steht. Kann ich sonst noch helfen?" },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Vielen Dank, Herr Schneider. Der Termin steht. Kann ich sonst noch helfen?",
+      },
       { kind: "msg", who: "caller", text: "Nein, danke." },
       { kind: "event", who: "", text: "Termin im Kalender eingetragen" },
-      { kind: "summary", who: "", text: "Herr Schneider, Kontrolle am Freitag um 09:00 Uhr. Rufnummer gespeichert." },
+      {
+        kind: "summary",
+        who: "",
+        text: "Herr Schneider, Kontrolle am Freitag um 09:00 Uhr. Rufnummer gespeichert.",
+      },
     ],
   },
   problem: {
@@ -134,8 +217,6 @@ const de = {
     booked: "Im Kalender eingetragen",
   },
 
-  
-  
   features: {
     eyebrow: "Funktionen",
     title: "Gebaut für den Alltag einer Praxis",
@@ -226,23 +307,35 @@ const de = {
     ],
   },
   final: {
+    eyebrow: "LASSEN SIE UNS SPRECHEN",
     title: "Bereit, keinen Anruf mehr zu verpassen?",
     text: "30 Minuten, unverbindlich. Wir sprechen über Ihre Praxis und wie WellSpring.AI ab dem ersten Tag Anrufe übernimmt.",
-    cta: "Kostenloses Erstgespräch buchen →",
+    cta: "Kostenloses Erstgespräch buchen",
+    secondary: "Beispielanruf hören",
   },
-  footer: { by: "WellSpring.AI · von", where: "Menden, Deutschland" },
+  footer: {
+    tagline:
+      "Ihr KI-Telefonassistent für weniger verpasste Anrufe und mehr gebuchte Termine.",
+    explore: "Entdecken",
+    legal: "Rechtliches",
+    contact: "Kontakt",
+    privacy: "Datenschutz",
+    terms: "Nutzungsbedingungen",
+    impressum: "Impressum",
+    where: "Menden, Deutschland",
+  },
 };
 
 type Copy = typeof de;
 
 const en: Copy = {
   nav: {
-    why: "🤔 Why",
-    demo: "🎧 Demo",
-    features: "✨ Features",
-    pricing: "💶 Pricing",
-    login: "🔑 Log in",
-    cta: "📅 Book a first call",
+    why: "Why",
+    demo: "Demo",
+    features: "Features",
+    pricing: "Pricing",
+    login: "Log in",
+    cta: "Book a first call",
   },
   hero: {
     eyebrow: "AI phone assistant for practices",
@@ -271,15 +364,35 @@ const en: Copy = {
     summaryTitle: "Summary for the practice",
     note: "Example: Dr. Feldmann dental practice (invented)",
     steps: [
-      { kind: "msg", who: "caller", text: "Hello, I'd like a check-up appointment, preferably this week." },
-      { kind: "msg", who: "ai", text: "Hello! Of course. I have a slot on Thursday at 2:30 pm or Friday at 9:00 am. Does either of those work for you?" },
+      {
+        kind: "msg",
+        who: "caller",
+        text: "Hello, I'd like a check-up appointment, preferably this week.",
+      },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Hello! Of course. I have a slot on Thursday at 2:30 pm or Friday at 9:00 am. Does either of those work for you?",
+      },
       { kind: "msg", who: "caller", text: "Friday at nine works well." },
-      { kind: "msg", who: "ai", text: "Perfect, I'll book you for a check-up on Friday at 9:00 am. What is your name, so I can create the appointment correctly?" },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Perfect, I'll book you for a check-up on Friday at 9:00 am. What is your name, so I can create the appointment correctly?",
+      },
       { kind: "msg", who: "caller", text: "Markus Schneider." },
-      { kind: "msg", who: "ai", text: "Thank you, Mr Schneider. Your appointment is booked. Is there anything else I can help with?" },
+      {
+        kind: "msg",
+        who: "ai",
+        text: "Thank you, Mr Schneider. Your appointment is booked. Is there anything else I can help with?",
+      },
       { kind: "msg", who: "caller", text: "No, thank you." },
       { kind: "event", who: "", text: "Appointment added to the calendar" },
-      { kind: "summary", who: "", text: "Mr Schneider, check-up on Friday at 9:00 am. Phone number saved." },
+      {
+        kind: "summary",
+        who: "",
+        text: "Mr Schneider, check-up on Friday at 9:00 am. Phone number saved.",
+      },
     ],
   },
   problem: {
@@ -349,7 +462,6 @@ const en: Copy = {
     ],
     booked: "Added to the calendar",
   },
-
 
   features: {
     eyebrow: "Features",
@@ -441,11 +553,23 @@ const en: Copy = {
     ],
   },
   final: {
+    eyebrow: "LET'S TALK",
     title: "Ready to stop missing calls?",
     text: "30 minutes, no obligation. We talk about your practice and how WellSpring.AI takes over calls from day one.",
-    cta: "Book a free first call →",
+    cta: "Book a free first call",
+    secondary: "Hear a sample call",
   },
-  footer: { by: "WellSpring.AI · by", where: "Menden, Germany" },
+  footer: {
+    tagline:
+      "Your AI phone assistant for fewer missed calls and more booked appointments.",
+    explore: "Explore",
+    legal: "Legal",
+    contact: "Contact",
+    privacy: "Privacy policy",
+    terms: "Terms of service",
+    impressum: "Imprint",
+    where: "Menden, Germany",
+  },
 };
 
 const COPY: Record<Lang, Copy> = { de, en };
@@ -523,7 +647,9 @@ function FeedItem({
   const ai = step.who === "ai";
   return (
     <div className={`wsx-msg ${ai ? "is-ai" : "is-caller"}`}>
-      <span className="wsx-who">{ai ? c.live.aiLabel : c.live.callerLabel}</span>
+      <span className="wsx-who">
+        {ai ? c.live.aiLabel : c.live.callerLabel}
+      </span>
       <p>
         {text}
         {typing && <span className="wsx-caret" />}
@@ -611,7 +737,12 @@ function LiveCall({ c }: { c: Copy }) {
             <FeedItem key={i} c={c} step={s} text={s.text} />
           ))}
           {current?.kind === "msg" && (
-            <FeedItem c={c} step={current} text={current.text.slice(0, typed)} typing />
+            <FeedItem
+              c={c}
+              step={current}
+              text={current.text.slice(0, typed)}
+              typing
+            />
           )}
         </div>
       </div>
@@ -688,16 +819,139 @@ function PhoneDemo({ c }: { c: Copy }) {
   );
 }
 
+function PromptPlayground({ lang }: { lang: Lang }) {
+  const reduced = usePrefersReducedMotion();
+  const [active, setActive] = useState(2);
+  const [typed, setTyped] = useState("");
+  const example = PROMPT_EXAMPLES[active];
+  const prompt = example.prompt[lang];
+  const copy =
+    lang === "de"
+      ? {
+          eyebrow: "IHRE KI, IHRE REGELN",
+          title: "Gestalten Sie Ihre Telefonassistenz in eigenen Worten.",
+          lead: "Wählen Sie einen Bereich und sehen Sie, wie eine passende Anweisung für Ihre Praxis entsteht.",
+          fieldTitle: "Aufgabe der Telefonassistenz",
+          helper:
+            "Keine Syntax lernen, einfach beschreiben, wie Ihr Team arbeitet.",
+          saved: "GESPEICHERT",
+        }
+      : {
+          eyebrow: "YOUR AI, YOUR RULES",
+          title: "Shape your receptionist in plain English.",
+          lead: "Choose a service and watch a prompt take shape around the way your practice works.",
+          fieldTitle: "Receptionist goal",
+          helper: "No syntax to learn. Just describe how your team works.",
+          saved: "AUTO-SAVED",
+        };
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % PROMPT_EXAMPLES.length);
+    }, 9200);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let cursor = 0;
+    if (reduced) {
+      const timer = window.setTimeout(() => setTyped(prompt), 0);
+      return () => window.clearTimeout(timer);
+    }
+
+    const resetTimer = window.setTimeout(() => setTyped(""), 0);
+    const timer = window.setInterval(() => {
+      cursor += 1;
+      setTyped(prompt.slice(0, cursor));
+      if (cursor >= prompt.length) window.clearInterval(timer);
+    }, 24);
+    return () => {
+      window.clearTimeout(resetTimer);
+      window.clearInterval(timer);
+    };
+  }, [prompt, reduced]);
+
+  return (
+    <section className="prompt-section" aria-labelledby="prompt-title">
+      <div className="wrap">
+        <div className="prompt-head">
+          <div className="eyebrow">{copy.eyebrow}</div>
+          <h2 id="prompt-title">{copy.title}</h2>
+          <p>{copy.lead}</p>
+        </div>
+
+        <div className="prompt-demo">
+          <div
+            className="prompt-tabs"
+            role="tablist"
+            aria-label={lang === "de" ? "Praxisbereiche" : "Services"}
+          >
+            {PROMPT_EXAMPLES.map((item, index) => (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={active === index}
+                className={active === index ? "is-active" : ""}
+                key={item.label.en}
+                onClick={() => setActive(index)}
+              >
+                <span aria-hidden="true">{item.icon}</span>
+                {item.label[lang]}
+              </button>
+            ))}
+          </div>
+
+          <div
+            className="prompt-panel"
+            role="tabpanel"
+            aria-label={example.label[lang]}
+          >
+            <div className="prompt-panel-head">
+              <div>
+                <strong>
+                  <i />
+                  {copy.fieldTitle}
+                </strong>
+                <span>{example.label[lang]}</span>
+              </div>
+              <span className="prompt-saved">
+                <i />
+                {copy.saved}
+              </span>
+            </div>
+            <div className="prompt-editor" aria-label={prompt}>
+              <span>{typed}</span>
+              {!reduced && typed.length < prompt.length && (
+                <i className="prompt-caret" aria-hidden="true" />
+              )}
+            </div>
+            <div className="prompt-helper">
+              <span aria-hidden="true">ⓘ</span>
+              {copy.helper}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function PraxislineLanding() {
   const [lang, setLang] = useLang();
   const c = COPY[lang];
 
   return (
-    <div className="praxisline-landing" lang={lang}>
+    <div
+      id="top"
+      className="praxisline-landing notranslate"
+      lang={lang}
+      translate="no"
+    >
       <header>
         <nav className="wrap">
           <div className="logo">
-            <span className="logo-mark"></span>WellSpring.AI
+            <BrandMark />
+            WellSpring.AI
           </div>
           <div className="nav-links">
             <a href="#problem">{c.nav.why}</a>
@@ -800,6 +1054,8 @@ export default function PraxislineLanding() {
         </div>
       </section>
 
+      <PromptPlayground key={lang} lang={lang} />
+
       <section className="how">
         <div className="wrap">
           <div className="eyebrow">{c.how.eyebrow}</div>
@@ -834,7 +1090,7 @@ export default function PraxislineLanding() {
         </div>
       </section>
 
-        <Industries lang={lang} bookingUrl={BOOKING_URL} />
+      <Industries lang={lang} bookingUrl={BOOKING_URL} />
 
       <section id="funktionen">
         <div className="wrap">
@@ -844,11 +1100,22 @@ export default function PraxislineLanding() {
           </div>
           <div className="feat-grid">
             {c.features.items.map((f, i) => (
-              <div className="feat" key={f.t}>
-                <div className="ic">{FEATURE_ICONS[i]}</div>
+              <Link
+                className="feat"
+                href={`/features/${FEATURE_SLUGS[i]}?lang=${lang}`}
+                key={f.t}
+                aria-label={`${f.t} — ${lang === "de" ? "Mehr erfahren" : "Learn more"}`}
+              >
+                <div className="ic" aria-hidden="true">
+                  {FEATURE_ICONS[i]}
+                </div>
                 <h3>{f.t}</h3>
                 <p>{f.d}</p>
-              </div>
+                <span className="feat-link">
+                  {lang === "de" ? "Mehr erfahren" : "Learn more"}
+                  <span aria-hidden="true">→</span>
+                </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -880,7 +1147,10 @@ export default function PraxislineLanding() {
           </div>
           <div className="price-grid">
             {c.pricing.plans.map((p) => (
-              <div className={`plan ${p.popular ? "popular" : ""}`} key={p.name}>
+              <div
+                className={`plan ${p.popular ? "popular" : ""}`}
+                key={p.name}
+              >
                 {p.popular && (
                   <div className="plan-badge">{c.pricing.badge}</div>
                 )}
@@ -905,24 +1175,61 @@ export default function PraxislineLanding() {
 
       <section className="final">
         <div className="wrap">
-          <h2>{c.final.title}</h2>
-          <p>{c.final.text}</p>
-          <a className="btn-primary" href={BOOKING_URL}>
-            {c.final.cta}
-          </a>
+          <div className="final-panel">
+            <div className="final-eyebrow">{c.final.eyebrow}</div>
+            <h2>{c.final.title}</h2>
+            <p>{c.final.text}</p>
+            <div className="final-actions">
+              <a className="final-primary" href={BOOKING_URL}>
+                {c.final.cta}
+                <span aria-hidden="true">→</span>
+              </a>
+              <a className="final-secondary" href="#handy">
+                {c.final.secondary}
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
       <footer>
-        <div className="wrap foot-wrap">
-          <div>
-            {c.footer.by}{" "}
-            <a href="https://murphy1.onrender.com">Murphy Odion</a>
+        <div className="wrap foot-main">
+          <div className="foot-brand">
+            <a
+              className="foot-logo"
+              href="#top"
+              aria-label="WellSpring.AI home"
+            >
+              <BrandMark />
+              WellSpring.AI
+            </a>
+            <p>{c.footer.tagline}</p>
           </div>
-          <div>
-            <a href="mailto:djmurphy041@gmail.com">djmurphy041@gmail.com</a> ·{" "}
-            {c.footer.where}
+          <div className="foot-column">
+            <h3>{c.footer.explore}</h3>
+            <a href="#problem">{c.nav.why}</a>
+            <a href="#handy">{c.nav.demo}</a>
+            <a href="#funktionen">{c.nav.features}</a>
+            <a href="#preise">{c.nav.pricing}</a>
           </div>
+          <div className="foot-column">
+            <h3>{c.footer.legal}</h3>
+            <Link href="/privacy">{c.footer.privacy}</Link>
+            <Link href="/terms">{c.footer.terms}</Link>
+            <Link href="/impressum">{c.footer.impressum}</Link>
+          </div>
+          <div className="foot-column foot-contact">
+            <h3>{c.footer.contact}</h3>
+            <a href="mailto:djmurphy041@gmail.com">djmurphy041@gmail.com</a>
+            <a href={BOOKING_URL}>{c.final.cta}</a>
+            <span>{c.footer.where}</span>
+          </div>
+        </div>
+        <div className="wrap foot-bottom">
+          <span>&copy; {new Date().getFullYear()} WellSpring.AI</span>
+          <a href="#top">
+            {lang === "de" ? "Zurück nach oben ↑" : "Back to top ↑"}
+          </a>
         </div>
       </footer>
     </div>

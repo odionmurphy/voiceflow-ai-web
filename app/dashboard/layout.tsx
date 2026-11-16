@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
-
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { useBusiness } from "@/lib/business-context";
 import CreateBusinessModal from "@/components/CreateBusinessModal";
+import BrandMark from "@/components/BrandMark";
 
 type IconName =
   | "overview"
@@ -24,7 +23,11 @@ const NAV_GROUPS: {
   {
     items: [
       { href: "/dashboard", label: "Overview", icon: "overview" },
-      { href: "/dashboard/appointments", label: "Appointments", icon: "calendar" },
+      {
+        href: "/dashboard/appointments",
+        label: "Appointments",
+        icon: "calendar",
+      },
       { href: "/dashboard/calendar", label: "Calendar", icon: "calendar" },
       { href: "/dashboard/customers", label: "Customers", icon: "people" },
       { href: "/dashboard/messages", label: "Messages", icon: "messages" },
@@ -32,7 +35,11 @@ const NAV_GROUPS: {
   },
   {
     items: [
-      { href: "/dashboard/ai-settings", label: "AI assistant", icon: "assistant" },
+      {
+        href: "/dashboard/ai-settings",
+        label: "AI assistant",
+        icon: "assistant",
+      },
       { href: "/dashboard/team", label: "Team", icon: "team" },
       { href: "/dashboard/settings", label: "Settings", icon: "settings" },
     ],
@@ -121,22 +128,14 @@ export default function DashboardLayout({
 
   return (
     <div className="dashboard-shell flex min-h-screen flex-col bg-paper md:flex-row">
-      <aside className="flex w-full shrink-0 flex-col bg-[#0F2C34] px-4 py-3 text-[#F1EBDC] md:sticky md:top-0 md:h-screen md:w-[240px] md:justify-between md:px-4 md:py-6">
+      <aside className="flex w-full shrink-0 flex-col bg-[#1D4ED8] px-4 py-3 text-white md:sticky md:top-0 md:h-screen md:w-[240px] md:justify-between md:px-4 md:py-6">
         <div className="min-w-0">
-         
-<div className="mb-4 flex items-center gap-2.5 px-1 md:mb-8">
- <Image
-  src="/logo.png"
-  alt=""
-  width={48}
-  height={48}
-  className="h-12 w-12 shrink-0 rounded-md object-contain"
-/>
-  <span className="font-display text-[19px] font-medium tracking-tight">
-    WellSpring.AI
-  </span>
-</div>
-
+          <div className="mb-4 flex items-center gap-3 px-1 md:mb-8">
+            <BrandMark size="regular" />
+            <span className="font-display text-[19px] font-medium tracking-tight">
+              WellSpring.AI
+            </span>
+          </div>
 
           <div className="relative mb-5">
             <button
@@ -144,10 +143,10 @@ export default function DashboardLayout({
               onClick={() => setSwitcherOpen((v) => !v)}
               aria-expanded={switcherOpen}
               aria-haspopup="listbox"
-              className="flex w-full items-center justify-between rounded-md bg-[#153B45] px-3 py-2.5 text-left transition hover:bg-[#1E4E59]"
+              className="flex w-full items-center justify-between rounded-md bg-[#1E40AF] px-3 py-2.5 text-left transition hover:bg-[#2563EB]"
             >
               <span className="min-w-0">
-                <span className="block text-[11px] text-[#F1EBDC]/60">
+                <span className="block text-[11px] text-white/65">
                   Practice
                 </span>
                 <span className="block truncate text-[13px] font-medium">
@@ -158,7 +157,7 @@ export default function DashboardLayout({
               </span>
               <svg
                 viewBox="0 0 24 24"
-                className="ml-2 h-4 w-4 shrink-0 text-[#F1EBDC]/60"
+                className="ml-2 h-4 w-4 shrink-0 text-white/65"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -211,9 +210,7 @@ export default function DashboardLayout({
               <div
                 key={gi}
                 className={`flex gap-1 md:block md:space-y-0.5 ${
-                  gi > 0
-                    ? "md:mt-4 md:border-t md:border-[#F1EBDC]/10 md:pt-4"
-                    : ""
+                  gi > 0 ? "md:mt-4 md:border-t md:border-white/15 md:pt-4" : ""
                 }`}
               >
                 {group.items.map((item) => {
@@ -228,14 +225,14 @@ export default function DashboardLayout({
                       aria-current={active ? "page" : undefined}
                       className={`relative flex shrink-0 items-center gap-3 rounded-md px-3 py-2 text-[14px] transition md:w-full ${
                         active
-                          ? "bg-[#153B45] font-medium text-white"
-                          : "text-[#F1EBDC]/75 hover:bg-[#153B45]/70 hover:text-white"
+                          ? "bg-white/15 font-medium text-white"
+                          : "text-white/80 hover:bg-white/10 hover:text-white"
                       }`}
                     >
                       {active && (
                         <span
                           aria-hidden="true"
-                          className="absolute inset-y-1.5 left-0 hidden w-[3px] rounded-full bg-[#DD9633] md:block"
+                          className="absolute inset-y-1.5 left-0 hidden w-[3px] rounded-full bg-white md:block"
                         />
                       )}
                       <NavIcon name={item.icon} />
@@ -248,21 +245,19 @@ export default function DashboardLayout({
           </nav>
         </div>
 
-        <div className="mt-4 hidden items-center gap-2.5 border-t border-[#F1EBDC]/10 pt-4 md:flex">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E4E59] text-[11px] font-medium text-white">
+        <div className="mt-4 hidden items-center gap-2.5 border-t border-white/15 pt-4 md:flex">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-[11px] font-medium text-white">
             {user.email.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[12px] text-[#F1EBDC]/80">
-              {user.email}
-            </p>
+            <p className="truncate text-[12px] text-white/85">{user.email}</p>
             <button
               type="button"
               onClick={() => {
                 logout();
                 router.replace("/login");
               }}
-              className="text-[12px] text-[#F1EBDC]/60 underline-offset-2 transition hover:text-white hover:underline"
+              className="text-[12px] text-white/70 underline-offset-2 transition hover:text-white hover:underline"
             >
               Log out
             </button>

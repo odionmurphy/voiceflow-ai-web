@@ -15,13 +15,29 @@ const STATUS_STYLES: Record<string, string> = {
   no_show: "bg-red-soft text-red",
 };
 
-const SOURCE_STYLES: Record<string, { className: string; icon: string; label: string }> = {
-  ai_call: { className: "bg-purple-500/15 text-purple-300", icon: "🤖", label: "AI call" },
-  manual: { className: "bg-slate-500/15 text-slate-300", icon: "✍️", label: "Manual" },
+const SOURCE_STYLES: Record<
+  string,
+  { className: string; icon: string; label: string }
+> = {
+  ai_call: {
+    className: "bg-blue-100 text-blue-700",
+    icon: "🤖",
+    label: "AI call",
+  },
+  manual: {
+    className: "bg-slate-500/15 text-slate-300",
+    icon: "✍️",
+    label: "Manual",
+  },
   web: { className: "bg-blue-500/15 text-blue-300", icon: "🌐", label: "Web" },
 };
 
-export default function AppointmentCard({ appointment, onClick, compact, style }: Props) {
+export default function AppointmentCard({
+  appointment,
+  onClick,
+  compact,
+  style,
+}: Props) {
   const start = new Date(appointment.start_time);
 
   return (
@@ -36,7 +52,10 @@ export default function AppointmentCard({ appointment, onClick, compact, style }
       <div className="flex min-w-0 items-center gap-4">
         <div className="flex shrink-0 flex-col items-center justify-center rounded-lg bg-paper px-3 py-2 text-center">
           <span className="font-display text-sm font-semibold text-ink">
-            {start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            {start.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </span>
           {!compact && (
             <span className="text-[11px] uppercase tracking-wide text-ink-soft">
@@ -45,8 +64,12 @@ export default function AppointmentCard({ appointment, onClick, compact, style }
           )}
         </div>
         <div className="min-w-0">
-          <p className="truncate font-medium text-ink">{appointment.customer_name ?? "Unknown"}</p>
-          <p className="truncate text-xs text-ink-soft">{appointment.service_name ?? "Service TBD"}</p>
+          <p className="truncate font-medium text-ink">
+            {appointment.customer_name ?? "Unknown"}
+          </p>
+          <p className="truncate text-xs text-ink-soft">
+            {appointment.service_name ?? "Service TBD"}
+          </p>
         </div>
       </div>
 

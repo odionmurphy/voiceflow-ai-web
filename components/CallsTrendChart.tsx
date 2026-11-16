@@ -74,7 +74,8 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
           daily.forEach((d, i) => {
             const gx = PAD_LEFT + i * groupW;
             const centerX = gx + groupW / 2;
-            const callsH = ((d.calls_answered + d.calls_missed) / maxVal) * CHART_H;
+            const callsH =
+              ((d.calls_answered + d.calls_missed) / maxVal) * CHART_H;
             const bookedH = (d.appointments_booked / maxVal) * CHART_H;
             callsPoints.push({ x: centerX, y: baseY - callsH });
             bookedPoints.push({ x: centerX, y: baseY - bookedH });
@@ -110,12 +111,12 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
             <g>
               <defs>
                 <linearGradient id="grad-calls" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#1E4E59" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#1E4E59" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#2563EB" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="grad-booked" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#B97A1F" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#B97A1F" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#8BB8FA" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#8BB8FA" stopOpacity="0" />
                 </linearGradient>
               </defs>
 
@@ -132,7 +133,7 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                 <path
                   d={callsPath}
                   fill="none"
-                  stroke="#1E4E59"
+                  stroke="#2563EB"
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -143,7 +144,7 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                 <path
                   d={bookedPath}
                   fill="none"
-                  stroke="#B97A1F"
+                  stroke="#8BB8FA"
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -155,7 +156,8 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
               {daily.map((d, i) => {
                 const gx = PAD_LEFT + i * groupW;
                 const centerX = gx + groupW / 2;
-                const callsH = ((d.calls_answered + d.calls_missed) / maxVal) * CHART_H;
+                const callsH =
+                  ((d.calls_answered + d.calls_missed) / maxVal) * CHART_H;
                 const bookedH = (d.appointments_booked / maxVal) * CHART_H;
                 const callsY = baseY - callsH;
                 const bookedY = baseY - bookedH;
@@ -180,8 +182,22 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                     />
                     {isHovered && (
                       <>
-                        <circle cx={centerX} cy={callsY} r={4} fill="#1E4E59" stroke="#FBF8F0" strokeWidth={2} />
-                        <circle cx={centerX} cy={bookedY} r={4} fill="#B97A1F" stroke="#FBF8F0" strokeWidth={2} />
+                        <circle
+                          cx={centerX}
+                          cy={callsY}
+                          r={4}
+                          fill="#2563EB"
+                          stroke="#FFFFFF"
+                          strokeWidth={2}
+                        />
+                        <circle
+                          cx={centerX}
+                          cy={bookedY}
+                          r={4}
+                          fill="#8BB8FA"
+                          stroke="#FFFFFF"
+                          strokeWidth={2}
+                        />
                       </>
                     )}
 
@@ -206,8 +222,13 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                   const gx = PAD_LEFT + hoverIndex * groupW;
                   const centerX = gx + groupW / 2;
                   const point = daily[hoverIndex];
-                  const callsY = PAD_TOP + CHART_H - ((point.calls_answered + point.calls_missed) / maxVal) * CHART_H;
-                  const tooltipX = centerX > VIEW_W * 0.72 ? centerX - 112 : centerX + 10;
+                  const callsY =
+                    PAD_TOP +
+                    CHART_H -
+                    ((point.calls_answered + point.calls_missed) / maxVal) *
+                      CHART_H;
+                  const tooltipX =
+                    centerX > VIEW_W * 0.72 ? centerX - 112 : centerX + 10;
                   const tooltipY = Math.max(PAD_TOP + 5, callsY - 68);
                   return (
                     <g pointerEvents="none">
@@ -221,10 +242,39 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
                         strokeDasharray="3 4"
                       />
                       <g>
-                        <rect x={tooltipX} y={tooltipY} width={102} height={82} rx={10} fill="#FBF8F0" stroke="#DDD6C3" />
-                        <text x={tooltipX + 10} y={tooltipY + 18} fontSize={11} fill="#152226">{formatDayLabel(point.day)}</text>
-                        <text x={tooltipX + 10} y={tooltipY + 42} fontSize={11} fill="#1E4E59">Calls: {point.calls_answered + point.calls_missed}</text>
-                        <text x={tooltipX + 10} y={tooltipY + 65} fontSize={11} fill="#B97A1F">Booked: {point.appointments_booked}</text>
+                        <rect
+                          x={tooltipX}
+                          y={tooltipY}
+                          width={102}
+                          height={82}
+                          rx={10}
+                          fill="#FFFFFF"
+                          stroke="#DFE8F5"
+                        />
+                        <text
+                          x={tooltipX + 10}
+                          y={tooltipY + 18}
+                          fontSize={11}
+                          fill="#111827"
+                        >
+                          {formatDayLabel(point.day)}
+                        </text>
+                        <text
+                          x={tooltipX + 10}
+                          y={tooltipY + 42}
+                          fontSize={11}
+                          fill="#2563EB"
+                        >
+                          Calls: {point.calls_answered + point.calls_missed}
+                        </text>
+                        <text
+                          x={tooltipX + 10}
+                          y={tooltipY + 65}
+                          fontSize={11}
+                          fill="#5B91E8"
+                        >
+                          Booked: {point.appointments_booked}
+                        </text>
                       </g>
                     </g>
                   );
@@ -233,7 +283,6 @@ export default function CallsTrendChart({ daily }: { daily: AnalyticsDay[] }) {
           );
         })()}
       </svg>
-
     </div>
   );
 }

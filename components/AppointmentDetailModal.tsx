@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Appointment } from "@/lib/types";
-import { cancelAppointment, deleteAppointmentPermanently, getAvailability, updateAppointment } from "@/lib/records-api";
+import {
+  cancelAppointment,
+  deleteAppointmentPermanently,
+  getAvailability,
+  updateAppointment,
+} from "@/lib/records-api";
 import { useBusiness } from "@/lib/business-context";
 
 interface Props {
@@ -20,9 +25,20 @@ const STATUS_STYLES: Record<string, string> = {
   no_show: "bg-red-soft text-red",
 };
 
-const SOURCE_STYLES: Record<string, { className: string; icon: string; label: string }> = {
-  ai_call: { className: "bg-purple-500/15 text-purple-300", icon: "🤖", label: "AI call" },
-  manual: { className: "bg-slate-500/15 text-slate-300", icon: "✍️", label: "Manual" },
+const SOURCE_STYLES: Record<
+  string,
+  { className: string; icon: string; label: string }
+> = {
+  ai_call: {
+    className: "bg-blue-100 text-blue-700",
+    icon: "🤖",
+    label: "AI call",
+  },
+  manual: {
+    className: "bg-slate-500/15 text-slate-300",
+    icon: "✍️",
+    label: "Manual",
+  },
   web: { className: "bg-blue-500/15 text-blue-300", icon: "🌐", label: "Web" },
 };
 
@@ -56,7 +72,9 @@ export default function AppointmentDetailModal({
   const [saving, setSaving] = useState(false);
 
   const durationMinutes = Math.round(
-    (new Date(appointment.end_time).getTime() - new Date(appointment.start_time).getTime()) / 60000
+    (new Date(appointment.end_time).getTime() -
+      new Date(appointment.start_time).getTime()) /
+      60000,
   );
 
   useEffect(() => {
@@ -88,7 +106,8 @@ export default function AppointmentDetailModal({
   }
 
   async function handleDelete() {
-    if (!confirm("Permanently delete this appointment? This can't be undone.")) return;
+    if (!confirm("Permanently delete this appointment? This can't be undone."))
+      return;
     setDeleting(true);
     try {
       await deleteAppointmentPermanently(appointment.id);
@@ -132,7 +151,9 @@ export default function AppointmentDetailModal({
               {appointment.customer_name ?? "Unknown customer"}
             </h2>
             {appointment.customer_phone && (
-              <p className="text-sm text-ink-soft">{appointment.customer_phone}</p>
+              <p className="text-sm text-ink-soft">
+                {appointment.customer_phone}
+              </p>
             )}
           </div>
           <button
@@ -199,7 +220,9 @@ export default function AppointmentDetailModal({
         {appointment.status !== "cancelled" && rescheduling && (
           <div className="mt-4 space-y-3 border-t border-border pt-4 text-sm">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-ink-soft">New date</label>
+              <label className="mb-1.5 block text-xs font-medium text-ink-soft">
+                New date
+              </label>
               <input
                 type="date"
                 value={date}

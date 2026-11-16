@@ -1,10 +1,6 @@
 type Lang = "de" | "en";
 
-/*
-  "Built for your trade" section. Add a photo to any card by putting a file in
-  /public/industries/ and setting `img` below, e.g. img: "/industries/plumbing.jpg".
-  Without `img` the card shows its emoji on a soft colour tile.
-*/
+/* Built for your trade section. Image URLs can be replaced with local assets later. */
 const ITEMS: {
   icon: string;
   tint: string;
@@ -12,14 +8,65 @@ const ITEMS: {
   de: [string, string];
   en: [string, string];
 }[] = [
-  { icon: "🦷", tint: "#e4ede6", de: ["Zahnarztpraxen", "Kontrolltermine und Schmerzfälle, sortiert."], en: ["Dental practices", "Check-ups and pain cases, sorted."] },
-  { icon: "🩺", tint: "#e3ebee", de: ["Arztpraxen", "Terminwünsche und Rezeptanfragen, aufgenommen."], en: ["Medical practices", "Appointment and prescription requests, taken."] },
-  { icon: "💆", tint: "#f2e6d3", de: ["Physiotherapie", "Folgetermine ohne Dauerklingeln."], en: ["Physiotherapy", "Follow-up bookings without the constant ringing."] },
-  { icon: "🔧", tint: "#e3ebee", de: ["Sanitär & Heizung", "Notfälle am Abend, direkt weitergegeben."], en: ["Plumbing & heating", "After-hours emergencies, passed on at once."] },
-  { icon: "⚖️", tint: "#ece6d6", de: ["Anwälte & Steuerberater", "Erstanfragen mit allen wichtigen Angaben."], en: ["Law & tax advisers", "First enquiries with every key detail."] },
-  { icon: "✂️", tint: "#f2e6d3", de: ["Friseur & Kosmetik", "Termine buchen, während Sie am Kunden sind."], en: ["Hair & beauty", "Bookings made while you're with a client."] },
-  { icon: "🚗", tint: "#e4ede6", de: ["Autowerkstätten", "Werkstatttermine und Rückfragen, erfasst."], en: ["Car workshops", "Service bookings and questions, logged."] },
-  { icon: "🏠", tint: "#ece6d6", de: ["Immobilienmakler", "Besichtigungen auch abends vereinbart."], en: ["Estate agents", "Viewings booked in the evening too."] },
+  {
+    icon: "🦷",
+    tint: "#e4ede6",
+    img: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=80",
+    de: ["Zahnarztpraxen", "Kontrolltermine und Schmerzfälle, sortiert."],
+    en: ["Dental practices", "Check-ups and pain cases, sorted."],
+  },
+  {
+    icon: "🩺",
+    tint: "#e3ebee",
+    img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=80",
+    de: ["Arztpraxen", "Terminwünsche und Rezeptanfragen, aufgenommen."],
+    en: ["Medical practices", "Appointment and prescription requests, taken."],
+  },
+  {
+    icon: "💆",
+    tint: "#f2e6d3",
+    img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80",
+    de: ["Physiotherapie", "Folgetermine ohne Dauerklingeln."],
+    en: ["Physiotherapy", "Follow-up bookings without the constant ringing."],
+  },
+  {
+    icon: "🔧",
+    tint: "#e3ebee",
+    img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=900&q=80",
+    de: ["Sanitär & Heizung", "Notfälle am Abend, direkt weitergegeben."],
+    en: ["Plumbing & heating", "After-hours emergencies, passed on at once."],
+  },
+  {
+    icon: "⚖️",
+    tint: "#ece6d6",
+    img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80",
+    de: [
+      "Anwälte & Steuerberater",
+      "Erstanfragen mit allen wichtigen Angaben.",
+    ],
+    en: ["Law & tax advisers", "First enquiries with every key detail."],
+  },
+  {
+    icon: "✂️",
+    tint: "#f2e6d3",
+    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80",
+    de: ["Friseur & Kosmetik", "Termine buchen, während Sie am Kunden sind."],
+    en: ["Hair & beauty", "Bookings made while you're with a client."],
+  },
+  {
+    icon: "🚗",
+    tint: "#e4ede6",
+    img: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=80",
+    de: ["Autowerkstätten", "Werkstatttermine und Rückfragen, erfasst."],
+    en: ["Car workshops", "Service bookings and questions, logged."],
+  },
+  {
+    icon: "🏠",
+    tint: "#ece6d6",
+    img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80",
+    de: ["Immobilienmakler", "Besichtigungen auch abends vereinbart."],
+    en: ["Estate agents", "Viewings booked in the evening too."],
+  },
 ];
 
 const COPY = {

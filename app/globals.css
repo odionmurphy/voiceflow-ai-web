@@ -3,30 +3,26 @@
 :root {
   --color-ink: #171b26;
   --color-ink-soft: #4b5165;
-  --color-paper: #f7f7f5;
+  --color-paper: #f8faff;
   --color-panel: #ffffff;
-  --color-border: #e4e3de;
+  --color-border: #e1e9f5;
 
-  /* Warm cream card fill, matching the landing page's call-card (--card in
-     app/landing.css) - used where a card should read as "the same design and
-     shape" as that reference rather than the cooler pure-white --color-panel. */
-  --color-cream: #fbf8f0;
+  --color-cream: #f1f6fd;
 
-  --color-navy: #1e2740;
-  --color-navy-deep: #131a2c;
-  --color-navy-soft: #2c3654;
+  --color-navy: #2563eb;
+  --color-navy-deep: #1d4ed8;
+  --color-navy-soft: #3b82f6;
 
-  --color-amber: #d89b3c;
-  --color-amber-deep: #b87f28;
-  --color-amber-soft: #f2ddb3;
+  --color-amber: #2563eb;
+  --color-amber-deep: #1d4ed8;
+  --color-amber-soft: #eaf2ff;
 
   --color-teal: #2f9e8f;
   --color-teal-soft: #d6efeb;
   --color-red: #c94f4f;
   --color-red-soft: #f6dede;
 
-  /* Clean, high-contrast yellow for the "AI is listening" pulse dot on AI Settings -
-     distinct from --color-amber (a muted gold used as the brand accent elsewhere). */
+  /* High-contrast signal for the "AI is listening" pulse dot on AI Settings. */
   --color-signal: #facc15;
 
   --font-display: var(--font-space-grotesk);
@@ -66,33 +62,67 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
-/* Dark theme for the logged-in dashboard only (app/dashboard/layout.tsx) - scoped
+.ws-brand-mark {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: linear-gradient(140deg, #1d4ed8 0%, #2563eb 58%, #55a2ff 100%);
+  box-shadow: 0 5px 13px rgba(37, 99, 235, 0.24);
+  color: #fff;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.09em;
+  line-height: 1;
+  padding-right: 2px;
+}
+.ws-brand-mark::after {
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+}
+.ws-brand-mark-compact {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.ws-brand-mark-regular {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+/* Logged-in dashboard theme only (app/dashboard/layout.tsx) - scoped
    to this class rather than redefined globally so /login, /register, and the legal
    pages stay on the light theme. Every dashboard page already reads colors through
    these same semantic tokens (bg-panel, text-ink, border-border, etc.), so
-   overriding the tokens here re-themes the whole dashboard without touching every
-   component. Panel/cream reuse the sidebar's own navy family so cards genuinely
-   match the sidebar, per the original ask, rather than an unrelated dark palette. */
+  overriding the tokens here re-themes the whole dashboard without touching every
+  component. */
 .dashboard-shell {
-  /* Praxisline workspace palette: bone paper, petrol ink, one amber accent.
-     Shared with the landing page so the product and the site read as one. */
-  --color-paper: #f4f0e6;
-  --color-panel: #fbf8f0;
-  --color-cream: #efe9da;
-  --color-border: #ddd6c3;
-  --color-ink: #152226;
-  --color-ink-soft: #55676c;
+  --color-paper: #f7faff;
+  --color-panel: #ffffff;
+  --color-cream: #eff5fd;
+  --color-border: #dfe8f5;
+  --color-ink: #111827;
+  --color-ink-soft: #536078;
 
-  --color-navy: #153b45;
-  --color-navy-deep: #0f2c34;
-  --color-navy-soft: #1e4e59;
+  --color-navy: #2563eb;
+  --color-navy-deep: #1d4ed8;
+  --color-navy-soft: #3b82f6;
 
-  --color-amber: #dd9633;
-  --color-amber-deep: #9a6313;
-  --color-amber-soft: #f3e2bf;
+  --color-amber: #2563eb;
+  --color-amber-deep: #1d4ed8;
+  --color-amber-soft: #eaf2ff;
 
-  --color-teal: #4a6b50;
-  --color-teal-soft: #dde8dc;
+  --color-teal: #168669;
+  --color-teal-soft: #dff4ed;
   --color-red: #a8403a;
   --color-red-soft: #f4dfdb;
 
