@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./landing.css";
+import "./landing-extras.css";
 import PraxislineLanding from "@/components/PraxislineLanding";
 
 // Only weights/styles actually used in landing.css (h1-h3 at 600, the hero's italic
@@ -25,7 +26,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Praxisline AI — Ihre Praxis geht nie mehr ans Band",
+  title: "WellSpring.AI — Ihre Praxis geht nie mehr ans Band",
 };
 
 export default function Home() {

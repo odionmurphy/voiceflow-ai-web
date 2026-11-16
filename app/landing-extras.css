@@ -1,0 +1,422 @@
+/* Additions to the Praxisline/WellSpring landing page: language switch, live call card,
+   phone display. Uses the palette from landing.css; all classes are prefixed wsx-. */
+
+.praxisline-landing .wsx-lang {
+  display: inline-flex;
+  border: 1px solid rgba(241, 235, 220, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.praxisline-landing .wsx-lang button {
+  background: transparent;
+  border: 0;
+  color: var(--paper-text-dim);
+  font: 600 12.5px/1 var(--font-ibm-plex-sans), sans-serif;
+  padding: 8px 11px;
+  cursor: pointer;
+}
+.praxisline-landing .wsx-lang button[aria-pressed="true"] {
+  background: var(--amber);
+  color: var(--petrol-900);
+}
+.praxisline-landing .wsx-lang button:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: -2px;
+}
+
+/* ---- live call card ---- */
+.praxisline-landing .wsx-live {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  color: var(--ink);
+}
+.praxisline-landing .wsx-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  margin: 0;
+}
+.praxisline-landing .wsx-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: var(--petrol-800);
+  color: var(--paper-text);
+  font: 500 12.5px/1 var(--font-ibm-plex-mono), monospace;
+}
+.praxisline-landing .wsx-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sage);
+  animation: praxisline-pulse-dot 1.8s ease-in-out infinite;
+}
+.praxisline-landing .wsx-body {
+  padding: 18px 20px 6px;
+}
+.praxisline-landing .wsx-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.praxisline-landing .wsx-status strong {
+  display: block;
+  font-size: 15px;
+}
+.praxisline-landing .wsx-status span:not(.wsx-chip) {
+  font: 400 12px/1.4 var(--font-ibm-plex-mono), monospace;
+  color: var(--ink-soft);
+}
+.praxisline-landing .wsx-chip {
+  font: 600 11.5px/1 var(--font-ibm-plex-sans), sans-serif;
+  padding: 6px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.praxisline-landing .wsx-chip.live {
+  background: rgba(110, 143, 115, 0.2);
+  color: #3f6446;
+}
+.praxisline-landing .wsx-chip.ended {
+  background: var(--bone-dim);
+  color: var(--ink-soft);
+}
+.praxisline-landing .wsx-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 348px;
+  overflow: hidden;
+  justify-content: flex-end;
+  padding-bottom: 14px;
+}
+.praxisline-landing .wsx-msg {
+  max-width: 88%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.praxisline-landing .wsx-msg p {
+  margin: 0;
+}
+.praxisline-landing .wsx-who {
+  display: block;
+  font: 600 10.5px/1 var(--font-ibm-plex-sans), sans-serif;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+.praxisline-landing .wsx-msg.is-caller {
+  align-self: flex-start;
+  background: var(--bone-dim);
+  border-bottom-left-radius: 3px;
+}
+.praxisline-landing .wsx-msg.is-ai {
+  align-self: flex-end;
+  background: var(--petrol-800);
+  color: var(--paper-text);
+  border-bottom-right-radius: 3px;
+}
+.praxisline-landing .wsx-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: wsx-blink 0.9s steps(1) infinite;
+}
+.praxisline-landing .wsx-event {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #3f6446;
+  background: rgba(110, 143, 115, 0.16);
+  padding: 7px 12px;
+  border-radius: 99px;
+  animation: wsx-rise 0.35s ease-out;
+}
+.praxisline-landing .wsx-event svg {
+  width: 14px;
+  height: 14px;
+}
+.praxisline-landing .wsx-summary {
+  border-left: 3px solid var(--amber);
+  background: #fff;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  animation: wsx-rise 0.35s ease-out;
+}
+.praxisline-landing .wsx-summary strong {
+  display: block;
+  font-size: 11.5px;
+  color: var(--amber-dark);
+  margin-bottom: 3px;
+}
+.praxisline-landing .wsx-note {
+  margin: 0;
+  padding: 10px 20px 14px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--bone-dim);
+}
+
+/* ---- phone section ---- */
+.praxisline-landing .wsx-phone-section {
+  background: var(--bone);
+  padding: 96px 0;
+}
+.praxisline-landing .wsx-phone-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 72px;
+  align-items: center;
+}
+.praxisline-landing .wsx-phone-section h2 {
+  margin-bottom: 14px;
+}
+.praxisline-landing .wsx-lead {
+  color: var(--ink-soft);
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 0 0 26px;
+}
+.praxisline-landing .wsx-list-title {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+.praxisline-landing .wsx-checks {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.praxisline-landing .wsx-checks li {
+  position: relative;
+  padding-left: 28px;
+  color: var(--ink);
+}
+.praxisline-landing .wsx-checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+.praxisline-landing .wsx-checks li::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  width: 6px;
+  height: 3px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+.praxisline-landing .wsx-foot {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.praxisline-landing .wsx-phone {
+  position: relative;
+  width: 270px;
+  height: 520px;
+  margin: 0 auto;
+  border-radius: 40px;
+  border: 8px solid var(--petrol-900);
+  background: var(--petrol-800);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.praxisline-landing .wsx-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78px;
+  height: 22px;
+  border-radius: 99px;
+  background: #000;
+  z-index: 2;
+}
+.praxisline-landing .wsx-lock,
+.praxisline-landing .wsx-app {
+  position: absolute;
+  inset: 0;
+  animation: wsx-fade 0.5s ease-out;
+}
+.praxisline-landing .wsx-lock {
+  padding: 70px 14px 0;
+  background: linear-gradient(170deg, var(--petrol-700), var(--petrol-900));
+  color: var(--paper-text);
+  text-align: center;
+}
+.praxisline-landing .wsx-lock-day {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+}
+.praxisline-landing .wsx-lock-time {
+  display: block;
+  font: 500 56px/1.1 var(--font-fraunces), serif;
+  margin-bottom: 42px;
+}
+.praxisline-landing .wsx-notif {
+  text-align: left;
+  background: rgba(251, 248, 240, 0.96);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 11px 13px;
+  display: grid;
+  gap: 3px;
+  font-size: 13px;
+  animation: wsx-notif 0.6s 0.25s ease-out both;
+}
+.praxisline-landing .wsx-notif strong {
+  font-size: 14px;
+}
+.praxisline-landing .wsx-notif-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+.praxisline-landing .wsx-notif-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--amber);
+}
+.praxisline-landing .wsx-notif-now {
+  margin-left: auto;
+}
+.praxisline-landing .wsx-app {
+  background: var(--card);
+  padding: 58px 16px 16px;
+  color: var(--ink);
+}
+.praxisline-landing .wsx-app-head {
+  font: 600 18px/1.25 var(--font-fraunces), serif;
+  margin-bottom: 16px;
+}
+.praxisline-landing .wsx-app dl {
+  margin: 0;
+}
+.praxisline-landing .wsx-app dl > div {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--bone-dim);
+}
+.praxisline-landing .wsx-app dt {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+.praxisline-landing .wsx-app dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.praxisline-landing .wsx-booked {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(110, 143, 115, 0.18);
+  color: #3f6446;
+  font-size: 13px;
+  font-weight: 600;
+}
+.praxisline-landing .wsx-booked svg {
+  width: 15px;
+  height: 15px;
+}
+
+@keyframes wsx-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wsx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes wsx-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wsx-notif {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@media (max-width: 900px) {
+  .praxisline-landing .wsx-phone-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .praxisline-landing .wsx-phone-section {
+    padding: 64px 0;
+  }
+}
+@media (max-width: 820px) {
+  .praxisline-landing .nav-links {
+    gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .praxisline-landing .wsx-caret,
+  .praxisline-landing .wsx-dot,
+  .praxisline-landing .wsx-event,
+  .praxisline-landing .wsx-summary,
+  .praxisline-landing .wsx-lock,
+  .praxisline-landing .wsx-app,
+  .praxisline-landing .wsx-notif {
+    animation: none;
+  }
+}
+
+/* Nav CTA text was being overridden by the generic .nav-links a colour. */
+.praxisline-landing .nav-links a.nav-cta {
+  color: var(--petrol-900);
+}
+@media (max-width: 560px) {
+  /* The hero already has the booking button; keep the nav to logo + language switch. */
+  .praxisline-landing .nav-links a.nav-cta {
+    display: none;
+  }
+}
+.praxisline-landing .wsx-phone-section h2 {
+  font-size: clamp(30px, 3.4vw, 40px);
+  line-height: 1.15;
+}
