@@ -1,5 +1,5 @@
 "use client";
-
+import Industries from "@/components/Industries";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -133,20 +133,9 @@ const de = {
     ],
     booked: "Im Kalender eingetragen",
   },
-  demo: {
-    eyebrow: "Live-Demo",
-    title: "So klingt ein echter Anruf",
-    head: "WellSpring.AI · Zahnarztpraxis Dr. Feldmann",
-    badge: "Live-Transkript",
-    caller: "Anrufer",
-    ai: "WellSpring.AI",
-    lines: [
-      { who: "caller", text: "Guten Tag, ich hätte gerne einen Termin zur Kontrolle, am liebsten diese Woche." },
-      { who: "ai", text: "Guten Tag! Gerne. Ich habe am Donnerstag um 14:30 Uhr oder Freitag um 09:00 Uhr einen Platz frei, passt Ihnen einer der beiden Termine?" },
-      { who: "caller", text: "Freitag um neun passt gut." },
-      { who: "ai", text: "Perfekt, ich trage Sie für Freitag, 09:00 Uhr zur Kontrolle ein. Wie ist Ihr Name, damit ich den Termin korrekt anlegen kann?" },
-    ],
-  },
+
+  
+  
   features: {
     eyebrow: "Funktionen",
     title: "Gebaut für den Alltag einer Praxis",
@@ -360,20 +349,8 @@ const en: Copy = {
     ],
     booked: "Added to the calendar",
   },
-  demo: {
-    eyebrow: "Live demo",
-    title: "What a real call sounds like",
-    head: "WellSpring.AI · Dr. Feldmann dental practice",
-    badge: "Live transcript",
-    caller: "Caller",
-    ai: "WellSpring.AI",
-    lines: [
-      { who: "caller", text: "Hello, I'd like a check-up appointment, preferably this week." },
-      { who: "ai", text: "Hello! Of course. I have a slot on Thursday at 2:30 pm or Friday at 9:00 am. Does either of those work for you?" },
-      { who: "caller", text: "Friday at nine works well." },
-      { who: "ai", text: "Perfect, I'll book you for a check-up on Friday at 9:00 am. What is your name, so I can create the appointment correctly?" },
-    ],
-  },
+
+
   features: {
     eyebrow: "Features",
     title: "Built for the daily routine of a practice",
@@ -857,33 +834,7 @@ export default function PraxislineLanding() {
         </div>
       </section>
 
-      <section id="demo">
-        <div className="wrap">
-          <div className="demo-head">
-            <div className="eyebrow">{c.demo.eyebrow}</div>
-            <h2>{c.demo.title}</h2>
-          </div>
-          <div className="transcript">
-            <div className="t-head">
-              <div className="t-head-left">
-                <span className="dot"></span>
-                <b>{c.demo.head}</b>
-              </div>
-              <span className="t-badge">{c.demo.badge}</span>
-            </div>
-            {c.demo.lines.map((line, i) => (
-              <div key={i}>
-                <div
-                  className={`bubble-label ${line.who === "ai" ? "right" : ""}`}
-                >
-                  {line.who === "ai" ? c.demo.ai : c.demo.caller}
-                </div>
-                <div className={`bubble ${line.who}`}>{line.text}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <Industries lang={lang} bookingUrl={BOOKING_URL} />
 
       <section id="funktionen">
         <div className="wrap">
