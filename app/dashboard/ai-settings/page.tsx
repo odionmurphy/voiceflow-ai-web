@@ -14,6 +14,44 @@ import { AIService, AIFaqItem } from "@/lib/types";
 type ServiceRow = { name: string; durationMinutes: string; price: string };
 type FaqRow = { question: string; answer: string };
 
+const PERSONALITIES = [
+  {
+    id: "default",
+    name: "Standard",
+    label: "FRIENDLY & PROFESSIONAL",
+    description: "A balanced, approachable style for everyday calls.",
+    gender: "DEFAULT",
+  },
+  {
+    id: "maya",
+    name: "Maya",
+    label: "WARM & NATURAL",
+    description: "Friendly and reassuring, without sounding scripted.",
+    gender: "FEMALE",
+  },
+  {
+    id: "mike",
+    name: "Mike",
+    label: "DIRECT & GROUNDED",
+    description: "Clear, confident, and straight to the point.",
+    gender: "MALE",
+  },
+  {
+    id: "lena",
+    name: "Lena",
+    label: "CALM & REASSURING",
+    description: "Patient and composed, especially when callers are unsure.",
+    gender: "FEMALE",
+  },
+  {
+    id: "alex",
+    name: "Alex",
+    label: "BRIGHT & UPBEAT",
+    description: "Positive and energetic while staying professional.",
+    gender: "MALE",
+  },
+] as const;
+
 const LANGUAGES = [
   { code: "en-US", label: "English" },
   { code: "de-DE", label: "German" },
@@ -65,6 +103,7 @@ export default function AISettingsPage() {
 
   const [greeting, setGreeting] = useState("");
   const [assistantName, setAssistantName] = useState("");
+  const [voiceId, setVoiceId] = useState("default");
   const [language, setLanguage] = useState("en-US");
   const [services, setServices] = useState<ServiceRow[]>([]);
   const [faq, setFaq] = useState<FaqRow[]>([]);
@@ -89,6 +128,7 @@ export default function AISettingsPage() {
       .then((data) => {
         if (cancelled) return;
         setGreeting(data.greeting ?? "");
+        setVoiceId(data.voice_id ?? "default");
         setAssistantName(data.booking_rules?.assistantName ?? "");
         setLanguage(data.booking_rules?.language ?? "en-US");
         setServices(
@@ -194,6 +234,7 @@ export default function AISettingsPage() {
       );
       await updateAISettings(activeBusiness.id, {
         greeting,
+        voiceId,
         services: services.map((s) => ({
           name: s.name,
           durationMinutes: Number(s.durationMinutes),
@@ -253,6 +294,71 @@ export default function AISettingsPage() {
       )}
 
       <fieldset disabled={!isOwner || Boolean(settingsError)} className="m-0 mt-6 space-y-6 border-0 p-0">
+        <SectionCard
+          icon="🎙️"
+          title="Choose your AI receptionist's personality"
+          description="Pick the conversational style that feels right for your practice."
+        >
+          <div
+            role="radiogroup"
+            aria-label="Receptionist personality"
+            className="grid gap-3 sm:grid-cols-2"
+          >
+            {PERSONALITIES.map((personality) => {
+              const selected = voiceId === personality.id;
+              return (
+                <div
+                  key={personality.id}
+                  className={`relative rounded-2xl border p-4 transition ${
+                    selected
+                      ? "border-navy bg-navy/[0.04] shadow-[0_0_0_2px_rgba(37,99,235,0.12)]"
+                      : "border-border bg-panel hover:border-navy/40"
+                  }`}
+                >
+                  {selected && (
+                    <span
+                      aria-label="Selected"
+                      className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-navy text-xs font-bold text-white"
+                    >
+                      ✓
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    onClick={() => setVoiceId(personality.id)}
+                    className="w-full pr-7 text-left"
+                  >
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-fuchsia-500 text-xl text-white shadow-sm">
+                      〰
+                    </span>
+                    <span className="mt-3 flex items-center gap-2">
+                      <span className="font-display text-base font-semibold text-ink">
+                        {personality.name}
+                      </span>
+                      <span className="rounded-full bg-navy/10 px-2 py-0.5 text-[9px] font-bold tracking-wide text-navy">
+                        {personality.gender}
+                      </span>
+                    </span>
+                    <span className="mt-1 block text-[10px] font-bold tracking-[0.12em] text-navy">
+                      {personality.label}
+                    </span>
+                    <span className="mt-2 block min-h-10 text-xs leading-relaxed text-ink-soft">
+                      {personality.description}
+                    </span>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+          <p className="mt-3 text-xs text-ink-soft">
+            After you save, Twilio uses the selected male or female voice for
+            future calls in your chosen language. The personality also guides
+            how the receptionist phrases its replies.
+          </p>
+        </SectionCard>
+
         <SectionCard icon="🤖" title="Assistant" description="Name and greeting callers hear first">
           <div className="grid gap-4 sm:grid-cols-[1fr_1.4fr]">
             <div className="space-y-4">
