@@ -25,6 +25,11 @@
   /* High-contrast signal for the "AI is listening" pulse dot on AI Settings. */
   --color-signal: #facc15;
 
+  --font-space-grotesk: "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-inter: "Segoe UI", Arial, sans-serif;
+  --font-fraunces: Georgia, "Times New Roman", serif;
+  --font-ibm-plex-sans: "Segoe UI", Arial, sans-serif;
+  --font-ibm-plex-mono: "SFMono-Regular", Consolas, monospace;
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-inter);
 }

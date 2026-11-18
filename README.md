@@ -11,13 +11,9 @@ backend API your mobile app already uses.
   the mobile app's pattern
 
 ## Design
-- **Palette**: deep navy (`#1e2740`) for structure, warm amber (`#d89b3c`) as the
-  single accent color, off-white paper background — deliberately not the
-  generic "cream + terracotta" AI-generated look.
-- **Type**: Space Grotesk for headings, Inter for body/data — both via
-  `next/font/google`, which needs real internet access at build time to fetch
-  (this only failed in Claude's own sandboxed dev environment, which blocks
-  Google Fonts; it will work normally on your machine).
+- **Palette**: blue (`#2563eb`) with a light, high-contrast background and
+  restrained teal/red status colors.
+- **Type**: system font stacks; builds do not need to download Google Fonts.
 - **Signature element**: a small pulsing amber dot next to the logo, meant to
   read as "the AI is listening" — used sparingly (login page, sidebar) rather
   than overused throughout.
@@ -33,6 +29,10 @@ Edit `.env.local` if your backend isn't running on the default `localhost:4000`:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
+
+For production, set `NEXT_PUBLIC_API_URL` in the hosting provider to the public
+HTTPS URL of the backend API, for example
+`https://your-backend.example.com/api`. Do not use `localhost` in production.
 
 Run it:
 ```bash
