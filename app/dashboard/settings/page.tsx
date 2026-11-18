@@ -21,10 +21,15 @@ import {
 import { ApiError } from "@/lib/api";
 import BusinessHoursEditor from "@/components/BusinessHoursEditor";
 
-const PLANS: { id: "starter" | "professional" | "business"; label: string; blurb: string }[] = [
-  { id: "starter", label: "Starter", blurb: "Up to 100 calls / month" },
-  { id: "professional", label: "Professional", blurb: "Up to 500 calls / month" },
-  { id: "business", label: "Business", blurb: "Unlimited calls" },
+const PLANS: {
+  id: "starter" | "professional" | "business";
+  label: string;
+  price: string;
+  blurb: string;
+}[] = [
+  { id: "starter", label: "Starter", price: "€49 / month", blurb: "Up to 100 answered calls / month" },
+  { id: "professional", label: "Professional", price: "€99 / month", blurb: "Up to 500 answered calls / month" },
+  { id: "business", label: "Business", price: "Custom monthly quote", blurb: "Up to 1,000 answered calls / month" },
 ];
 
 const STATUS_LABEL: Record<string, string> = {
@@ -367,7 +372,7 @@ export default function SettingsPage() {
         <div className="mt-6 rounded-[22px] border border-border bg-panel p-6 shadow-[0_20px_45px_-30px_rgba(30,39,64,0.35)]">
           <h2 className="font-display text-base font-semibold text-ink">Billing</h2>
           <p className="mt-1 text-sm text-ink-soft">
-            Manage your plan and payment method.
+            Plans renew monthly. AI call answering pauses when your included answered-call allowance is reached.
           </p>
 
           {billingStatus === "success" && (
@@ -394,10 +399,8 @@ export default function SettingsPage() {
                   <span className="text-sm text-ink-soft">
                     {STATUS_LABEL[subscription.status] ?? subscription.status}
                     {" - "}
-                    {subscription.calls_used_this_period} /{" "}
-                    {subscription.calls_included >= 1_000_000
-                      ? "unlimited"
-                      : subscription.calls_included}{" "}
+                    {subscription.calls_used_this_period.toLocaleString()} /{" "}
+                    {subscription.calls_included.toLocaleString()}{" "}
                     calls used this period
                   </span>
                 </div>
@@ -409,18 +412,28 @@ export default function SettingsPage() {
                   return (
                     <div key={p.id} className="rounded-lg border border-border p-4">
                       <div className="text-sm font-semibold text-ink">{p.label}</div>
+                      <div className="mt-1 text-sm font-semibold text-navy">{p.price}</div>
                       <div className="mt-1 text-xs text-ink-soft">{p.blurb}</div>
-                      <button
-                        onClick={() => handleChoosePlan(p.id)}
-                        disabled={isCurrent || billingActionPlan !== null}
-                        className="mt-3 w-full rounded-lg bg-navy px-3 py-2 text-xs font-semibold text-white hover:bg-navy-deep disabled:opacity-60"
-                      >
-                        {isCurrent
-                          ? "Current plan"
-                          : billingActionPlan === p.id
-                          ? "Redirecting..."
-                          : "Choose plan"}
-                      </button>
+                      {p.id === "business" && !isCurrent ? (
+                        <a
+                          href="https://calendly.com/djmurphy041/30min"
+                          className="mt-3 block w-full rounded-lg bg-navy px-3 py-2 text-center text-xs font-semibold text-white hover:bg-navy-deep"
+                        >
+                          Request a quote
+                        </a>
+                      ) : (
+                        <button
+                          onClick={() => handleChoosePlan(p.id)}
+                          disabled={isCurrent || billingActionPlan !== null}
+                          className="mt-3 w-full rounded-lg bg-navy px-3 py-2 text-xs font-semibold text-white hover:bg-navy-deep disabled:opacity-60"
+                        >
+                          {isCurrent
+                            ? "Current plan"
+                            : billingActionPlan === p.id
+                            ? "Redirecting..."
+                            : "Choose plan"}
+                        </button>
+                      )}
                     </div>
                   );
                 })}

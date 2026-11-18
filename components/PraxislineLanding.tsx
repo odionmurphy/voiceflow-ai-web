@@ -7,6 +7,7 @@ import Link from "next/link";
 type Lang = "de" | "en";
 
 const BOOKING_URL = "https://calendly.com/djmurphy041/30min";
+const CONTACT_EMAIL = "kontakt.wellspringai@gmail.com";
 const FEATURE_SLUGS = [
   "always-on-answering",
   "natural-conversations",
@@ -78,10 +79,7 @@ const PROMPT_EXAMPLES: {
   },
 ];
 
-/*
-  All page text lives here, once per language. Edit wording in this object.
-  The page structure and styling are the old Praxisline landing page.
-*/
+/* All landing-page text lives here, once per language. */
 const de = {
   nav: {
     why: "Warum",
@@ -89,20 +87,20 @@ const de = {
     features: "Funktionen",
     pricing: "Preise",
     login: "Anmelden",
-    cta: "Erstgespräch buchen",
+    cta: "Erstgespräch vereinbaren",
   },
   hero: {
-    eyebrow: "KI-Telefonassistent für Praxen",
-    l1: "Ihre Praxis geht",
-    l2: "Du hast nie wieder. ",
-    em: " einen Anruf verpasst.",
-    lead: "WellSpring.AI beantwortet jeden Anruf, führt ein natürliches Gespräch auf Deutsch und trägt Termine direkt in Ihren Kalender ein, abends, am Wochenende und wenn Ihre Rezeption gerade voll ist.",
-    cta1: "Kostenloses Erstgespräch buchen",
+    eyebrow: "KI-Telefonassistenz für Unternehmen",
+    l1: "Kein Anruf geht",
+    l2: "mehr ",
+    em: "verloren.",
+    lead: "WellSpring.AI nimmt Anrufe entgegen, führt natürliche Gespräche und vereinbart Termine direkt in Ihrem Kalender – auch abends, am Wochenende und wenn Ihr Team gerade beschäftigt ist.",
+    cta1: "Kostenloses Erstgespräch vereinbaren",
     cta2: "Beispielanruf ansehen ↓",
     stats: [
       ["24/7", "Erreichbar"],
-      ["<2 Sek.", "Bis zur Begrüßung"],
-      ["100%", "Anrufe beantwortet"],
+      ["Direkt", "Anrufannahme"],
+      ["Klar", "Zusammenfassungen"],
       ["DSGVO", "Konform, EU-Hosting"],
     ],
   },
@@ -115,90 +113,90 @@ const de = {
     active: "Läuft",
     callerLabel: "Anrufer",
     aiLabel: "WellSpring.AI",
-    summaryTitle: "Zusammenfassung für die Praxis",
-    note: "Beispiel: Zahnarztpraxis Dr. Feldmann (erfunden)",
+    summaryTitle: "Zusammenfassung für Ihr Team",
+    note: "Beispielgespräch · fiktiver Betrieb",
     steps: [
       {
         kind: "msg",
         who: "caller",
-        text: "Guten Tag, ich hätte gerne einen Termin zur Kontrolle, am liebsten diese Woche.",
+        text: "Guten Tag, ich möchte gerne einen Termin vereinbaren, am liebsten noch diese Woche.",
       },
       {
         kind: "msg",
         who: "ai",
-        text: "Guten Tag! Gerne. Ich habe am Donnerstag um 14:30 Uhr oder Freitag um 09:00 Uhr einen Platz frei. Passt Ihnen einer der beiden Termine?",
+        text: "Guten Tag! Gerne. Am Donnerstag um 14:30 Uhr oder Freitag um 09:00 Uhr ist noch ein Termin frei. Passt Ihnen einer der beiden?",
       },
       { kind: "msg", who: "caller", text: "Freitag um neun passt gut." },
       {
         kind: "msg",
         who: "ai",
-        text: "Perfekt, ich trage Sie für Freitag, 09:00 Uhr zur Kontrolle ein. Wie ist Ihr Name, damit ich den Termin korrekt anlegen kann?",
+        text: "Perfekt, ich trage Sie für Freitag um 09:00 Uhr ein. Wie ist Ihr Name, damit ich den Termin korrekt buchen kann?",
       },
       { kind: "msg", who: "caller", text: "Markus Schneider." },
       {
         kind: "msg",
         who: "ai",
-        text: "Vielen Dank, Herr Schneider. Der Termin steht. Kann ich sonst noch helfen?",
+        text: "Vielen Dank, Herr Schneider. Der Termin ist eingetragen. Kann ich sonst noch etwas für Sie tun?",
       },
       { kind: "msg", who: "caller", text: "Nein, danke." },
       { kind: "event", who: "", text: "Termin im Kalender eingetragen" },
       {
         kind: "summary",
         who: "",
-        text: "Herr Schneider, Kontrolle am Freitag um 09:00 Uhr. Rufnummer gespeichert.",
+        text: "Herr Schneider, Termin am Freitag um 09:00 Uhr. Rufnummer gespeichert.",
       },
     ],
   },
   problem: {
     eyebrow: "Das Problem",
-    title: "Jeder verpasste Anruf ist ein Patient, der nicht zurückkommt",
+    title: "Verpasste Anrufe können verlorene Aufträge bedeuten",
     cards: [
       {
-        t: "Anrufe während der Behandlung",
-        d: "Ihr Team steht am Stuhl, das Telefon klingelt durch. Der Patient legt auf und ruft die nächste Praxis an.",
+        t: "Anrufe, während Ihr Team beschäftigt ist",
+        d: "Ihr Team ist im Gespräch oder bei einem Kunden. Der Anruf bleibt unbeantwortet – und die Anfrage geht vielleicht an den nächsten Anbieter.",
       },
       {
-        t: "Nach Feierabend keine Erreichbarkeit",
-        d: "Schmerzpatienten und neue Anfragen kommen abends und am Wochenende. Ihre Praxis ist dann offline.",
+        t: "Anfragen nach Feierabend",
+        d: "Viele Anfragen kommen abends oder am Wochenende. Mit einer Telefonassistenz bleiben Sie auch außerhalb Ihrer Geschäftszeiten erreichbar.",
       },
       {
-        t: "Terminvergabe frisst Zeit",
-        d: "Jeder Rückruf, jede Verschiebung bindet Ihre Rezeption, Zeit, die eigentlich am Empfang gebraucht wird.",
+        t: "Weniger Aufwand für Terminabsprachen",
+        d: "Rückrufe und Terminänderungen kosten Zeit. Ihre Telefonassistenz nimmt die wichtigsten Informationen direkt auf.",
       },
       {
-        t: "Keine Übersicht über Anfragen",
-        d: "Wer hat angerufen, warum, wurde zurückgerufen? Ohne System geht das im Alltag unter.",
+        t: "Alle Anfragen im Blick",
+        d: "Wer hat angerufen und worum ging es? Gesprächsnotizen helfen Ihrem Team, den Überblick zu behalten und gezielt zurückzurufen.",
       },
     ],
   },
   how: {
     eyebrow: "So funktioniert es",
-    title: "In drei Schritten vom Klingeln zum gebuchten Termin",
+    title: "Vom ersten Klingeln zur gut dokumentierten Anfrage",
     steps: [
       {
         t: "Anruf kommt an",
-        d: "WellSpring.AI nimmt sofort ab, in Ihrem Namen, mit Ihrer eigenen Begrüßung, egal ob die Rezeption besetzt ist oder nicht.",
+        d: "WellSpring.AI nimmt Anrufe mit Ihrer individuellen Begrüßung entgegen – auch wenn Ihr Team gerade nicht erreichbar ist.",
       },
       {
-        t: "Natürliches Gespräch",
-        d: "Die KI versteht das Anliegen, beantwortet häufige Fragen zur Praxis und schlägt passende freie Termine vor.",
+        t: "Das Anliegen wird geklärt",
+        d: "Die KI beantwortet häufige Fragen, erfasst wichtige Informationen und kann passende freie Termine vorschlagen.",
       },
       {
-        t: "Termin steht",
-        d: "Der Termin wird direkt in Ihren Kalender eingetragen, Ihr Team wird sofort benachrichtigt. Kein Zettel, kein Rückruf nötig.",
+        t: "Ihr Team bleibt informiert",
+        d: "Termine werden in Ihren Kalender eingetragen. Ihr Team erhält eine übersichtliche Zusammenfassung und kann bei Bedarf zurückrufen.",
       },
     ],
   },
   phone: {
     eyebrow: "Nach dem Anruf",
     title: "Jeder Anruf endet mit einer Nachricht für Ihr Team",
-    lead: "Sobald der Anrufer auflegt, sehen Sie auf dem Handy, was passiert ist. Die Zusammenfassung finden Sie auch im Dashboard.",
+    lead: "Nach dem Anruf erhält Ihr Team eine übersichtliche Zusammenfassung – auf dem Handy und im Dashboard.",
     listTitle: "Alles Wichtige auf einen Blick",
     list: [
       "Name und Rückrufnummer",
-      "Was der Anrufer wollte, in einfachen Worten",
-      "Welcher Termin gebucht wurde",
-      "Ob ein Rückruf nötig ist",
+      "Das Anliegen des Anrufers",
+      "Vereinbarte Termine oder nächste Schritte",
+      "Ob ein Rückruf erforderlich ist",
     ],
     footnote:
       "Die Benachrichtigung kommt über die WellSpring-App. Das Dashboard läuft im Browser.",
@@ -206,11 +204,11 @@ const de = {
     lockTime: "14:34",
     appName: "WellSpring.AI",
     now: "jetzt",
-    notifTitle: "Neuer Termin gebucht",
-    notifBody: "Herr Schneider, Kontrolle, Fr. 09:00",
+    notifTitle: "Neue Anfrage eingegangen",
+    notifBody: "Herr Schneider, Terminwunsch, Fr. 09:00",
     appTitle: "Anruf von Herrn Schneider",
     rows: [
-      ["Anliegen", "Kontrolltermin"],
+      ["Anliegen", "Terminwunsch"],
       ["Termin", "Freitag, 09:00 Uhr"],
       ["Rückruf", "Nummer gespeichert"],
     ],
@@ -219,15 +217,15 @@ const de = {
 
   features: {
     eyebrow: "Funktionen",
-    title: "Gebaut für den Alltag einer Praxis",
+    title: "Für den Alltag Ihres Unternehmens gemacht",
     items: [
       {
         t: "24/7 Erreichbarkeit",
         d: "Auch nach Feierabend, am Wochenende und in der Mittagspause nimmt WellSpring.AI jeden Anruf entgegen.",
       },
       {
-        t: "Natürliche deutsche Sprache",
-        d: "Kein starres Menü, kein „Drücken Sie die 1“, sondern echte Gespräche, die sich für Patienten normal anfühlen.",
+        t: "Natürliche Gespräche",
+        d: "Kein starres Menü und kein „Drücken Sie die 1“ – Ihre Anrufer können ihr Anliegen einfach schildern.",
       },
       {
         t: "Kalender-Synchronisation",
@@ -235,73 +233,72 @@ const de = {
       },
       {
         t: "Anruf-Zusammenfassungen",
-        d: "Jeder Anruf wird protokolliert und zusammengefasst, mit voller Übersicht ohne Mehraufwand für Ihr Team.",
+        d: "Ihr Team erhält klare Gesprächsnotizen und behält Anfragen im Blick, ohne jedes Gespräch selbst entgegennehmen zu müssen.",
       },
       {
         t: "Automatische Rückrufe",
-        d: "Wenn ein Anrufer buchen wollte, aber unterbrochen wurde, ruft WellSpring.AI selbstständig zurück.",
+        d: "Wenn ein Anrufer einen Rückruf wünscht, kann WellSpring.AI ihn nach Ihren Vorgaben kontaktieren.",
       },
       {
         t: "DSGVO-konform",
-        d: "Daten werden verschlüsselt übertragen und in der EU gehostet, konform mit den Anforderungen einer Praxis.",
+        d: "Daten werden verschlüsselt übertragen und in der EU gehostet. Die Verarbeitung ist auf geltende Datenschutzanforderungen ausgerichtet.",
       },
     ],
   },
   trust: {
-    title: "Vertrauen ist in der Medizin nicht verhandelbar.",
+    title: "Vertrauen und Datenschutz haben Priorität.",
     items: [
       "DSGVO-konform",
       "Server in der EU",
       "Verschlüsselte Übertragung",
-      "Kein Verkauf von Patientendaten",
+      "Kein Verkauf Ihrer Kundendaten",
     ],
   },
   pricing: {
     eyebrow: "Preise",
-    title: "Klar kalkuliert, ohne Überraschungen",
-    badge: "Meistgewählt",
+    title: "Wächst mit Ihrem Unternehmen – nicht mit Ihrer Rechnung.",
+    intro: "Feste Monatspreise, keine Einrichtungsgebühr und ein klares Anruflimit in jedem Tarif.",
+    badge: "Mehr Spielraum",
+    terms:
+      "Monatliche Preise ohne Einrichtungsgebühr. Enthalten sind beantwortete Anrufe pro Abrechnungszeitraum. Nach Erreichen des Limits pausiert die KI-Anrufannahme bis zum nächsten Zeitraum oder einem Tarifwechsel.",
     plans: [
       {
         name: "Basis",
-        price: "€497",
-        unit: "einmalig",
-        note: "Für Einzelpraxen · Einrichtung",
+        price: "€49",
+        unit: "/ Monat",
+        note: "Für kleinere Anrufvolumen",
         list: [
-          "KI-Telefonassistent für eine Rufnummer",
-          "Begrüßung & FAQ auf Ihre Praxis abgestimmt",
-          "Terminbuchung nach Ihren Regeln",
-          "1 Anpassungsrunde",
+          "Bis zu 100 beantwortete Anrufe pro Monat",
+          "KI-Telefonassistenz für Ihr Unternehmen",
+          "Anruf-Zusammenfassungen im Dashboard",
         ],
-        cta: "Erstgespräch buchen",
+        cta: "Tarif besprechen",
         popular: false,
       },
       {
-        name: "Praxis",
-        price: "€997",
-        unit: "einmalig",
-        note: "Für Praxen mit hohem Anrufaufkommen",
+        name: "Professional",
+        price: "€99",
+        unit: "/ Monat",
+        note: "Für wachsende Anrufvolumen",
         list: [
-          "Alles aus Basis",
-          "Kalender-Synchronisation inklusive",
-          "Automatische Rückrufe",
-          "Anruf-Zusammenfassungen & Auswertung",
-          "2 Anpassungsrunden",
+          "Bis zu 500 beantwortete Anrufe pro Monat",
+          "Alle Funktionen des Basis-Tarifs",
+          "Terminverwaltung und Kalenderanbindung",
         ],
-        cta: "Erstgespräch buchen",
+        cta: "Tarif besprechen",
         popular: true,
       },
       {
-        name: "Mehrere Standorte",
-        price: "Individuell",
+        name: "Business",
+        price: "Individuelles Angebot",
         unit: "",
-        note: "Für Praxisketten & MVZ",
+        note: "Für höhere Anrufvolumen",
         list: [
-          "Alles aus Praxis",
-          "Mehrere Standorte & Rufnummern",
-          "Monatliche Betreuung & Updates",
-          "Priorisierter Support",
+          "Bis zu 1.000 beantwortete Anrufe pro Monat",
+          "Monatlicher Preis nach Absprache",
+          "Anruflimit und Anforderungen vorab abstimmen",
         ],
-        cta: "Gespräch vereinbaren",
+        cta: "Angebot anfragen",
         popular: false,
       },
     ],
@@ -309,16 +306,17 @@ const de = {
   final: {
     eyebrow: "LASSEN SIE UNS SPRECHEN",
     title: "Bereit, keinen Anruf mehr zu verpassen?",
-    text: "30 Minuten, unverbindlich. Wir sprechen über Ihre Praxis und wie WellSpring.AI ab dem ersten Tag Anrufe übernimmt.",
-    cta: "Kostenloses Erstgespräch buchen",
+    text: "In einem unverbindlichen Gespräch von 30 Minuten klären wir, wie WellSpring.AI Ihre Telefonkommunikation unterstützen kann.",
+    cta: "Kostenloses Erstgespräch vereinbaren",
     secondary: "Beispielanruf hören",
   },
   footer: {
     tagline:
-      "Ihr KI-Telefonassistent für weniger verpasste Anrufe und mehr gebuchte Termine.",
-    explore: "Entdecken",
+      "KI-gestützte Telefonannahme für Unternehmen – damit Anfragen zuverlässig entgegengenommen und übersichtlich weiterbearbeitet werden können.",
+    explore: "WellSpring.AI",
     legal: "Rechtliches",
     contact: "Kontakt",
+    contactNote: "Sie haben Fragen? Schreiben Sie uns oder vereinbaren Sie ein unverbindliches Gespräch.",
     privacy: "Datenschutz",
     terms: "Nutzungsbedingungen",
     impressum: "Impressum",
@@ -335,20 +333,20 @@ const en: Copy = {
     features: "Features",
     pricing: "Pricing",
     login: "Log in",
-    cta: "Book a first call",
+    cta: "Book an introductory call",
   },
   hero: {
-    eyebrow: "AI phone assistant for practices",
-    l1: "Your never misses ",
-    l2: "a call ",
-    em: "Again.",
-    lead: "WellSpring.AI answers every call, holds a natural conversation, and books appointments straight into your calendar, in the evening, at weekends, and when your front desk is busy.",
-    cta1: "Book a free first call",
+    eyebrow: "AI phone answering for businesses",
+    l1: "Every call",
+    l2: "answered. Every ",
+    em: "enquiry captured.",
+    lead: "WellSpring.AI answers calls, has natural conversations, and can schedule appointments directly in your calendar—even after hours, at weekends, and whenever your team is busy.",
+    cta1: "Book a free introductory call",
     cta2: "See an example call ↓",
     stats: [
       ["24/7", "Reachable"],
-      ["<2 sec.", "To greeting"],
-      ["100%", "Answered"],
+      ["Direct", "Call answering"],
+      ["Clear", "Call summaries"],
       ["GDPR", "EU hosting"],
     ],
   },
@@ -361,90 +359,90 @@ const en: Copy = {
     active: "Live",
     callerLabel: "Caller",
     aiLabel: "WellSpring.AI",
-    summaryTitle: "Summary for the practice",
-    note: "Example: Dr. Feldmann dental practice (invented)",
+    summaryTitle: "Summary for your team",
+    note: "Example conversation · fictional business",
     steps: [
       {
         kind: "msg",
         who: "caller",
-        text: "Hello, I'd like a check-up appointment, preferably this week.",
+        text: "Hello, I'd like to book an appointment, preferably sometime this week.",
       },
       {
         kind: "msg",
         who: "ai",
-        text: "Hello! Of course. I have a slot on Thursday at 2:30 pm or Friday at 9:00 am. Does either of those work for you?",
+        text: "Of course. I have an opening on Thursday at 2:30 pm or Friday at 9:00 am. Would either of those work for you?",
       },
       { kind: "msg", who: "caller", text: "Friday at nine works well." },
       {
         kind: "msg",
         who: "ai",
-        text: "Perfect, I'll book you for a check-up on Friday at 9:00 am. What is your name, so I can create the appointment correctly?",
+        text: "Perfect, I'll book you for Friday at 9:00 am. May I have your name so I can confirm the appointment?",
       },
       { kind: "msg", who: "caller", text: "Markus Schneider." },
       {
         kind: "msg",
         who: "ai",
-        text: "Thank you, Mr Schneider. Your appointment is booked. Is there anything else I can help with?",
+        text: "Thank you, Mr Schneider. Your appointment is confirmed. Is there anything else I can help you with?",
       },
       { kind: "msg", who: "caller", text: "No, thank you." },
       { kind: "event", who: "", text: "Appointment added to the calendar" },
       {
         kind: "summary",
         who: "",
-        text: "Mr Schneider, check-up on Friday at 9:00 am. Phone number saved.",
+        text: "Mr Schneider, appointment on Friday at 9:00 am. Phone number saved.",
       },
     ],
   },
   problem: {
     eyebrow: "The problem",
-    title: "Every missed call is a patient who doesn't come back",
+    title: "A missed call can mean a missed opportunity",
     cards: [
       {
-        t: "Calls during treatment",
-        d: "Your team is at the chair and the phone rings out. The patient hangs up and calls the next practice.",
+        t: "Calls while your team is busy",
+        d: "Your team is with a customer or handling a task. The call goes unanswered—and the enquiry may go to another provider.",
       },
       {
-        t: "Nobody there after hours",
-        d: "Patients in pain and new enquiries come in the evening and at weekends. Your practice is offline.",
+        t: "Enquiries after hours",
+        d: "Potential customers often call in the evening or at weekends. Stay reachable beyond your usual business hours.",
       },
       {
-        t: "Booking eats time",
-        d: "Every call back and every reschedule ties up your front desk, time that is needed at reception.",
+        t: "Time spent arranging appointments",
+        d: "Callbacks and schedule changes take time. Your phone assistant can capture the details and handle routine requests.",
       },
       {
-        t: "No overview of enquiries",
-        d: "Who called, why, and did anyone call back? Without a system that gets lost in the daily routine.",
+        t: "A clearer view of enquiries",
+        d: "Call summaries help your team see who called, what they need, and whether a follow-up is required.",
       },
     ],
   },
   how: {
     eyebrow: "How it works",
-    title: "From the first ring to a booked appointment in three steps",
+    title: "From the first ring to a well-handled enquiry",
     steps: [
       {
         t: "The call comes in",
-        d: "WellSpring.AI picks up straight away, in your name and with your own greeting, whether the front desk is free or not.",
+        d: "WellSpring.AI answers with your personalised greeting, even when your team is unavailable.",
       },
       {
-        t: "A natural conversation",
-        d: "The AI understands the request, answers common questions about the practice, and offers suitable free slots.",
+        t: "Understands the request",
+        d: "The AI answers common questions, captures key details, and can offer suitable appointment times.",
       },
       {
-        t: "The appointment is set",
-        d: "The appointment goes straight into your calendar and your team is notified at once. No note, no call back needed.",
+        t: "Your team stays informed",
+        d: "Appointments are added to your calendar. Your team receives a concise summary and can follow up when needed.",
       },
     ],
   },
   phone: {
     eyebrow: "After the call",
     title: "Every call ends with a message for your team",
-    lead: "As soon as the caller hangs up, you see on your phone what happened. The summary is also in your dashboard.",
+    lead: "After each call, your team receives a clear summary on their phone and in the dashboard.",
     listTitle: "Everything important at a glance",
     list: [
       "Name and call-back number",
-      "What the caller wanted, in plain words",
-      "Which appointment was booked",
-      "Whether a call back is needed",
+      "What the caller needs",
+      "Appointments arranged or next steps",
+      "Whether a follow-up is needed",
     ],
     footnote:
       "The notification comes through the WellSpring app. The dashboard runs in your browser.",
@@ -452,11 +450,11 @@ const en: Copy = {
     lockTime: "2:34",
     appName: "WellSpring.AI",
     now: "now",
-    notifTitle: "New appointment booked",
-    notifBody: "Mr Schneider, check-up, Fri 09:00",
+    notifTitle: "New enquiry received",
+    notifBody: "Mr Schneider, appointment request, Fri 09:00",
     appTitle: "Call from Mr Schneider",
     rows: [
-      ["Reason", "Check-up appointment"],
+      ["Enquiry", "Appointment request"],
       ["Appointment", "Friday, 9:00 am"],
       ["Call back", "Number saved"],
     ],
@@ -465,15 +463,15 @@ const en: Copy = {
 
   features: {
     eyebrow: "Features",
-    title: "Built for the daily routine of a practice",
+    title: "Built for the way your business works",
     items: [
       {
         t: "Available 24/7",
         d: "After hours, at weekends and during lunch, WellSpring.AI takes every call.",
       },
       {
-        t: "Natural German language",
-        d: "No rigid menu, no “press 1”, just real conversations that feel normal to patients.",
+        t: "Natural conversations",
+        d: "No rigid menu or “press 1” instructions—callers can simply explain what they need.",
       },
       {
         t: "Calendar sync",
@@ -481,73 +479,72 @@ const en: Copy = {
       },
       {
         t: "Call summaries",
-        d: "Every call is logged and summarised, giving full overview with no extra work for your team.",
+        d: "Clear call summaries help your team track enquiries without having to answer every call themselves.",
       },
       {
         t: "Automatic call backs",
-        d: "If a caller wanted to book but was interrupted, WellSpring.AI calls back by itself.",
+        d: "When a caller requests a follow-up, WellSpring.AI can contact them according to your instructions.",
       },
       {
         t: "GDPR-compliant",
-        d: "Data is transferred encrypted and hosted in the EU, in line with a practice's requirements.",
+        d: "Data is encrypted in transit and hosted in the EU, with processing designed around applicable privacy requirements.",
       },
     ],
   },
   trust: {
-    title: "Trust is not negotiable in medicine.",
+    title: "Trust and privacy come first.",
     items: [
       "GDPR-compliant",
       "Servers in the EU",
       "Encrypted transfer",
-      "No sale of patient data",
+      "We never sell your customer data",
     ],
   },
   pricing: {
     eyebrow: "Pricing",
-    title: "Clearly priced, no surprises",
-    badge: "Most chosen",
+    title: "Built to grow with your business—not your bill.",
+    intro: "Fixed monthly pricing, no setup fee, and a clear answered-call allowance in every plan.",
+    badge: "More room to grow",
+    terms:
+      "Monthly prices with no setup fee. Each plan includes a set number of answered calls per billing period. When the limit is reached, AI call answering pauses until the next period or a plan change.",
     plans: [
       {
-        name: "Basic",
-        price: "€497",
-        unit: "one-off",
-        note: "For single practices · Setup",
+        name: "Starter",
+        price: "€49",
+        unit: "/ month",
+        note: "For lower call volumes",
         list: [
-          "AI phone assistant for one phone number",
-          "Greeting & FAQ tailored to your practice",
-          "Booking following your rules",
-          "1 round of adjustments",
+          "Up to 100 answered calls per month",
+          "AI phone answering for your business",
+          "Call summaries in your dashboard",
         ],
-        cta: "Book a first call",
+        cta: "Discuss this plan",
         popular: false,
       },
       {
-        name: "Practice",
-        price: "€997",
-        unit: "one-off",
-        note: "For practices with many calls",
+        name: "Professional",
+        price: "€99",
+        unit: "/ month",
+        note: "For growing call volumes",
         list: [
-          "Everything in Basic",
-          "Calendar sync included",
-          "Automatic call backs",
-          "Call summaries & reporting",
-          "2 rounds of adjustments",
+          "Up to 500 answered calls per month",
+          "Everything in Starter",
+          "Appointment management and calendar connection",
         ],
-        cta: "Book a first call",
+        cta: "Discuss this plan",
         popular: true,
       },
       {
-        name: "Multiple locations",
-        price: "Custom",
+        name: "Business",
+        price: "Custom monthly quote",
         unit: "",
-        note: "For practice groups & medical centres",
+        note: "For higher call volumes",
         list: [
-          "Everything in Practice",
-          "Several locations & phone numbers",
-          "Monthly support & updates",
-          "Priority support",
+          "Up to 1,000 answered calls per month",
+          "Monthly price agreed with you",
+          "Discuss call limits and requirements in advance",
         ],
-        cta: "Arrange a call",
+        cta: "Request a quote",
         popular: false,
       },
     ],
@@ -555,16 +552,17 @@ const en: Copy = {
   final: {
     eyebrow: "LET'S TALK",
     title: "Ready to stop missing calls?",
-    text: "30 minutes, no obligation. We talk about your practice and how WellSpring.AI takes over calls from day one.",
-    cta: "Book a free first call",
+    text: "A no-obligation 30-minute conversation about how WellSpring.AI can support your phone operations.",
+    cta: "Book a free introductory call",
     secondary: "Hear a sample call",
   },
   footer: {
     tagline:
-      "Your AI phone assistant for fewer missed calls and more booked appointments.",
-    explore: "Explore",
+      "AI-powered call answering for businesses—helping teams capture enquiries reliably and manage follow-ups with clarity.",
+    explore: "WellSpring.AI",
     legal: "Legal",
     contact: "Contact",
+    contactNote: "Questions about WellSpring.AI? Email us or arrange an introductory call.",
     privacy: "Privacy policy",
     terms: "Terms of service",
     impressum: "Imprint",
@@ -821,7 +819,7 @@ function PhoneDemo({ c }: { c: Copy }) {
 
 function PromptPlayground({ lang }: { lang: Lang }) {
   const reduced = usePrefersReducedMotion();
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const [typed, setTyped] = useState("");
   const example = PROMPT_EXAMPLES[active];
   const prompt = example.prompt[lang];
@@ -830,7 +828,7 @@ function PromptPlayground({ lang }: { lang: Lang }) {
       ? {
           eyebrow: "IHRE KI, IHRE REGELN",
           title: "Gestalten Sie Ihre Telefonassistenz in eigenen Worten.",
-          lead: "Wählen Sie einen Bereich und sehen Sie, wie eine passende Anweisung für Ihre Praxis entsteht.",
+          lead: "Wählen Sie eine Branche und sehen Sie, wie eine passende Anweisung für Ihren Betrieb entsteht.",
           fieldTitle: "Aufgabe der Telefonassistenz",
           helper:
             "Keine Syntax lernen, einfach beschreiben, wie Ihr Team arbeitet.",
@@ -839,7 +837,7 @@ function PromptPlayground({ lang }: { lang: Lang }) {
       : {
           eyebrow: "YOUR AI, YOUR RULES",
           title: "Shape your receptionist in plain English.",
-          lead: "Choose a service and watch a prompt take shape around the way your practice works.",
+          lead: "Choose an industry and see how a tailored instruction can reflect the way your business works.",
           fieldTitle: "Receptionist goal",
           helper: "No syntax to learn. Just describe how your team works.",
           saved: "AUTO-SAVED",
@@ -884,7 +882,7 @@ function PromptPlayground({ lang }: { lang: Lang }) {
           <div
             className="prompt-tabs"
             role="tablist"
-            aria-label={lang === "de" ? "Praxisbereiche" : "Services"}
+            aria-label={lang === "de" ? "Branchen" : "Industries"}
           >
             {PROMPT_EXAMPLES.map((item, index) => (
               <button
@@ -1135,15 +1133,14 @@ export default function PraxislineLanding() {
         </div>
       </div>
 
-      <section id="preise">
+      <section id="preise" className="pricing">
         <div className="wrap">
           <div className="price-head">
             <div className="eyebrow" style={{ justifyContent: "center" }}>
               {c.pricing.eyebrow}
             </div>
-            <h2 style={{ fontSize: "clamp(30px,3.4vw,40px)" }}>
-              {c.pricing.title}
-            </h2>
+            <h2>{c.pricing.title}</h2>
+            <p className="price-intro">{c.pricing.intro}</p>
           </div>
           <div className="price-grid">
             {c.pricing.plans.map((p) => (
@@ -1155,7 +1152,7 @@ export default function PraxislineLanding() {
                   <div className="plan-badge">{c.pricing.badge}</div>
                 )}
                 <div className="plan-name">{p.name}</div>
-                <div className="plan-price">
+                <div className={`plan-price${p.unit ? "" : " plan-price-quote"}`}>
                   {p.price} {p.unit && <span>{p.unit}</span>}
                 </div>
                 <div className="plan-note">{p.note}</div>
@@ -1170,6 +1167,9 @@ export default function PraxislineLanding() {
               </div>
             ))}
           </div>
+          <p className="pricing-terms">
+            {c.pricing.terms}
+          </p>
         </div>
       </section>
 
@@ -1220,7 +1220,8 @@ export default function PraxislineLanding() {
           </div>
           <div className="foot-column foot-contact">
             <h3>{c.footer.contact}</h3>
-            <a href="mailto:djmurphy041@gmail.com">djmurphy041@gmail.com</a>
+            <p>{c.footer.contactNote}</p>
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             <a href={BOOKING_URL}>{c.final.cta}</a>
             <span>{c.footer.where}</span>
           </div>

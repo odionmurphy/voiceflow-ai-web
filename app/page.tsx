@@ -4,7 +4,7 @@ import "./landing-extras.css";
 import PraxislineLanding from "@/components/PraxislineLanding";
 
 export const metadata: Metadata = {
-  title: "WellSpring.AI — Ihre Praxis geht nie mehr ans Band",
+  title: "WellSpring.AI — Kein Anruf geht mehr verloren",
 };
 
 export default function Home() {
